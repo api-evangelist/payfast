@@ -34,6 +34,8 @@ apis:
     properties:
       - type: Documentation
         url: https://developers.payfast.co.za/documentation
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/payfast/refs/heads/main/openapi/openapi.yml
       - type: Sandbox
         url: https://sandbox.payfast.co.za
   - name: PayFast Subscriptions API

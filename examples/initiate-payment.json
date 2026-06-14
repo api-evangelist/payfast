@@ -1,0 +1,31 @@
+{
+  "title": "Initiate a Standard PayFast Payment",
+  "description": "Example of a standard redirect-based payment form POST to PayFast. After posting these fields to https://www.payfast.co.za/eng/process, the customer is redirected to the PayFast payment page to complete the transaction.",
+  "request": {
+    "method": "POST",
+    "url": "https://www.payfast.co.za/eng/process",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "merchant_id": "10000100",
+      "merchant_key": "46f0cd694581a",
+      "return_url": "https://www.example.com/return",
+      "cancel_url": "https://www.example.com/cancel",
+      "notify_url": "https://www.example.com/notify",
+      "name_first": "Jane",
+      "name_last": "Smith",
+      "email_address": "jane@example.com",
+      "m_payment_id": "order-1234",
+      "amount": "99.00",
+      "item_name": "Premium Subscription",
+      "item_description": "Monthly premium plan access",
+      "currency": "ZAR",
+      "signature": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    }
+  },
+  "response": {
+    "status": 302,
+    "description": "Customer is redirected to the PayFast payment page"
+  }
+}

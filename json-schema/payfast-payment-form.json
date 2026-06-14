@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/payfast/json-schema/payfast-payment-form.json",
+  "title": "PayFast Payment Form Request",
+  "description": "Schema for the PayFast standard redirect payment form POST fields, including subscription and tokenization parameters.",
+  "type": "object",
+  "required": ["merchant_id", "merchant_key", "amount", "item_name", "signature"],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "PayFast merchant ID assigned during registration",
+      "example": "10000100"
+    },
+    "merchant_key": {
+      "type": "string",
+      "description": "PayFast merchant key assigned during registration",
+      "example": "46f0cd694581a"
+    },
+    "return_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect the customer to after a successful payment",
+      "example": "https://www.example.com/return"
+    },
+    "cancel_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to redirect the customer to if they cancel the payment",
+      "example": "https://www.example.com/cancel"
+    },
+    "notify_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Server-to-server ITN (Instant Transaction Notification) URL",
+      "example": "https://www.example.com/notify"
+    },
+    "name_first": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Customer first name",
+      "example": "Jane"
+    },
+    "name_last": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Customer last name",
+      "example": "Smith"
+    },
+    "email_address": {
+      "type": "string",
+      "format": "email",
+      "description": "Customer email address",
+      "example": "jane@example.com"
+    },
+    "cell_number": {
+      "type": "string",
+      "description": "Customer cell phone number",
+      "example": "+27821234567"
+    },
+    "m_payment_id": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Merchant-assigned payment reference ID",
+      "example": "order-1234"
+    },
+    "amount": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d{2}$",
+      "description": "Payment amount in ZAR, formatted to exactly 2 decimal places",
+      "example": "99.00"
+    },
+    "item_name": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Name of the item or service being purchased",
+      "example": "Premium subscription"
+    },
+    "item_description": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "Additional description of the item",
+      "example": "Monthly premium plan"
+    },
+    "custom_int1": { "type": "integer", "description": "Custom integer field 1" },
+    "custom_int2": { "type": "integer", "description": "Custom integer field 2" },
+    "custom_int3": { "type": "integer", "description": "Custom integer field 3" },
+    "custom_int4": { "type": "integer", "description": "Custom integer field 4" },
+    "custom_int5": { "type": "integer", "description": "Custom integer field 5" },
+    "custom_str1": { "type": "string", "maxLength": 255, "description": "Custom string field 1" },
+    "custom_str2": { "type": "string", "maxLength": 255, "description": "Custom string field 2" },
+    "custom_str3": { "type": "string", "maxLength": 255, "description": "Custom string field 3" },
+    "custom_str4": { "type": "string", "maxLength": 255, "description": "Custom string field 4" },
+    "custom_str5": { "type": "string", "maxLength": 255, "description": "Custom string field 5" },
+    "email_confirmation": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Send confirmation email to merchant (1=yes, 0=no)",
+      "example": 1
+    },
+    "confirmation_address": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address to receive payment confirmation",
+      "example": "merchant@example.com"
+    },
+    "currency": {
+      "type": "string",
+      "default": "ZAR",
+      "description": "Transaction currency — currently only ZAR is supported",
+      "example": "ZAR"
+    },
+    "payment_method": {
+      "type": "string",
+      "description": "Restrict the payment to a specific method (cc, dc, ef, mp, sc, mc, cd, vc)",
+      "example": "cc"
+    },
+    "subscription_type": {
+      "type": "integer",
+      "enum": [1, 2],
+      "description": "Subscription type: 1=recurring billing, 2=tokenization (future adhoc charges)"
+    },
+    "billing_date": {
+      "type": "string",
+      "format": "date",
+      "description": "First billing date for recurring subscription (YYYY-MM-DD)",
+      "example": "2026-07-01"
+    },
+    "recurring_amount": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d{2}$",
+      "description": "Amount to charge on each recurring billing cycle (ZAR)",
+      "example": "99.00"
+    },
+    "frequency": {
+      "type": "integer",
+      "enum": [3, 4, 5, 6],
+      "description": "Billing frequency: 3=monthly, 4=quarterly, 5=biannually, 6=annually",
+      "example": 3
+    },
+    "cycles": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of billing cycles (0=indefinite)",
+      "example": 12
+    },
+    "subscription_notify_email": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Notify merchant of subscription events via email"
+    },
+    "subscription_notify_webhook": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Notify merchant of subscription events via webhook"
+    },
+    "subscription_notify_buyer": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Notify buyer of subscription events"
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{32}$",
+      "description": "MD5 signature of sorted, URL-encoded payment parameters",
+      "example": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    }
+  },
+  "additionalProperties": false
+}

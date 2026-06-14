@@ -1,0 +1,169 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "payfast": "https://developers.payfast.co.za/documentation#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "hydra": "http://www.w3.org/ns/hydra/core#"
+  },
+  "@type": "WebAPI",
+  "@id": "https://api.payfast.co.za",
+  "name": "PayFast API",
+  "description": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds.",
+  "url": "https://developers.payfast.co.za/documentation",
+  "provider": {
+    "@type": "Organization",
+    "@id": "https://payfast.io",
+    "name": "PayFast",
+    "url": "https://payfast.io",
+    "logo": "https://payfast.io/favicon.ico",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "developer support",
+      "url": "https://support.payfast.help"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "South Africa",
+      "identifier": "ZA"
+    },
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "description": "Serves 80,000+ South African businesses"
+    }
+  },
+  "termsOfService": "https://payfast.io/legal/terms-and-conditions",
+  "documentation": "https://developers.payfast.co.za/documentation",
+  "availableChannel": [
+    {
+      "@type": "ServiceChannel",
+      "name": "Production API",
+      "serviceUrl": "https://api.payfast.co.za/v1"
+    },
+    {
+      "@type": "ServiceChannel",
+      "name": "Sandbox API",
+      "serviceUrl": "https://sandbox.payfast.co.za/v1"
+    }
+  ],
+  "featureList": [
+    "Online payment processing",
+    "Recurring billing subscriptions",
+    "Tokenized card payments (adhoc charges)",
+    "Onsite embedded checkout",
+    "QR code payments",
+    "Instant EFT bank transfers",
+    "Credit card processing",
+    "Merchant refunds",
+    "Transaction history reporting",
+    "Instant Transaction Notifications (ITN/webhooks)"
+  ],
+  "paymentAccepted": [
+    "Credit Card",
+    "Debit Card",
+    "Instant EFT",
+    "QR Code",
+    "Mobicred",
+    "SCode",
+    "MoreTyme"
+  ],
+  "currenciesAccepted": "ZAR",
+  "offers": {
+    "@type": "Offer",
+    "url": "https://payfast.io/fees",
+    "description": "PayFast transaction fees — see pricing page for current rates"
+  },
+  "hasAPI": [
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:subscriptions",
+      "name": "Subscriptions API",
+      "description": "Manage recurring billing subscription agreements — fetch, pause, unpause, cancel, update, and adhoc charge",
+      "urlTemplate": "https://api.payfast.co.za/v1/subscriptions/{token}/{action}",
+      "httpMethod": ["GET", "PUT", "POST", "PATCH"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:transactions",
+      "name": "Transaction History API",
+      "description": "Query merchant transaction history with date range, daily, weekly, and monthly aggregations",
+      "urlTemplate": "https://api.payfast.co.za/v1/transactions/history{/period}",
+      "httpMethod": ["GET"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:creditcard",
+      "name": "Credit Card Transactions API",
+      "description": "Query individual credit card transaction details by token",
+      "urlTemplate": "https://api.payfast.co.za/v1/process/query/{token}",
+      "httpMethod": ["GET"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:refunds",
+      "name": "Refunds API",
+      "description": "Initiate and track merchant refunds on completed transactions",
+      "urlTemplate": "https://api.payfast.co.za/v1/refunds/{id}",
+      "httpMethod": ["GET", "POST"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:onsite",
+      "name": "Onsite Checkout API",
+      "description": "Generate payment identifiers for embedded (onsite) checkout flows",
+      "urlTemplate": "https://www.payfast.co.za/onsite/process",
+      "httpMethod": ["POST"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:payment-form",
+      "name": "Payment Form",
+      "description": "Standard redirect-based payment form for initiating PayFast checkout",
+      "urlTemplate": "https://www.payfast.co.za/eng/process",
+      "httpMethod": ["POST"]
+    },
+    {
+      "@type": "EntryPoint",
+      "@id": "payfast:itn-validate",
+      "name": "ITN Validation",
+      "description": "Server-to-server validation of Instant Transaction Notifications",
+      "urlTemplate": "https://www.payfast.co.za/eng/query/validate",
+      "httpMethod": ["POST"]
+    }
+  ],
+  "softwareHelp": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "PayFast PHP SDK",
+      "url": "https://github.com/Payfast/payfast-php-sdk",
+      "applicationCategory": "DeveloperApplication",
+      "programmingLanguage": "PHP"
+    }
+  ],
+  "status": {
+    "@type": "WebPage",
+    "url": "https://status.payfast.io",
+    "name": "PayFast Status Page"
+  },
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Authentication",
+      "value": "MD5 signature derived from merchant ID, passphrase, timestamp, and sorted request parameters"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "API Version",
+      "value": "v1"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Compliance",
+      "value": "PCI-DSS Level 1"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Sandbox",
+      "value": "https://sandbox.payfast.co.za"
+    }
+  ]
+}

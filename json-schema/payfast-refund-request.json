@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/payfast/json-schema/payfast-refund-request.json",
+  "title": "PayFast Refund Request",
+  "description": "Schema for creating a refund on a completed PayFast transaction.",
+  "type": "object",
+  "required": ["amount"],
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Refund amount in cents (ZAR). Must not exceed the original transaction amount.",
+      "example": 5000
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "Human-readable reason for the refund",
+      "example": "Product returned by customer"
+    },
+    "acc_type": {
+      "type": "string",
+      "enum": ["current", "savings"],
+      "description": "Bank account type for disbursement of refund funds",
+      "example": "savings"
+    },
+    "notify_buyer": {
+      "type": "integer",
+      "enum": [0, 1],
+      "default": 1,
+      "description": "Whether to send a notification email to the buyer (1=yes, 0=no)"
+    }
+  },
+  "additionalProperties": false
+}

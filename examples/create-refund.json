@@ -1,0 +1,38 @@
+{
+  "title": "Create a Refund",
+  "description": "Initiate a refund for a completed transaction. Refunds are only available in production (not sandbox) mode.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.payfast.co.za/v1/refunds/2afa4575-5628-051a-d0ed-4e071b56a7b0",
+    "headers": {
+      "Content-Type": "application/json",
+      "merchant-id": "10000100",
+      "version": "v1",
+      "timestamp": "2026-06-13T10:00:00+02:00",
+      "signature": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    },
+    "body": {
+      "amount": 5000,
+      "reason": "Product returned by customer",
+      "acc_type": "savings",
+      "notify_buyer": 1
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "status": "success",
+      "data": {
+        "response": {
+          "id": "dc0521d3-55fe-269b-fa00-b647310d760f",
+          "payment_id": "1124148",
+          "merchant_id": "10000100",
+          "refund_amount": 50.00,
+          "status": "COMPLETE",
+          "created": "2026-06-13T10:00:00Z"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "title": "Create a Recurring Billing Subscription",
+  "description": "Example of initiating a recurring billing subscription via the PayFast payment form. The customer is charged an initial amount and then billed monthly for 12 cycles.",
+  "request": {
+    "method": "POST",
+    "url": "https://www.payfast.co.za/eng/process",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "merchant_id": "10000100",
+      "merchant_key": "46f0cd694581a",
+      "return_url": "https://www.example.com/return",
+      "cancel_url": "https://www.example.com/cancel",
+      "notify_url": "https://www.example.com/notify",
+      "name_first": "Jane",
+      "name_last": "Smith",
+      "email_address": "jane@example.com",
+      "m_payment_id": "sub-5678",
+      "amount": "99.00",
+      "item_name": "Premium Monthly Plan",
+      "currency": "ZAR",
+      "subscription_type": 1,
+      "billing_date": "2026-07-01",
+      "recurring_amount": "99.00",
+      "frequency": 3,
+      "cycles": 12,
+      "subscription_notify_email": 1,
+      "subscription_notify_webhook": 1,
+      "subscription_notify_buyer": 1,
+      "signature": "b2c4e84f7d6a8f374a3a0431bc5bde91"
+    }
+  }
+}

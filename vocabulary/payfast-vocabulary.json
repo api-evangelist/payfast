@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/payfast/vocabulary/payfast-vocabulary.json",
+  "title": "PayFast API Vocabulary",
+  "description": "Controlled vocabulary of key terms and concepts used in the PayFast payment gateway API.",
+  "terms": [
+    {
+      "term": "merchant_id",
+      "label": "Merchant ID",
+      "description": "Unique numeric identifier assigned to a merchant by PayFast during registration.",
+      "type": "string",
+      "example": "10000100"
+    },
+    {
+      "term": "merchant_key",
+      "label": "Merchant Key",
+      "description": "Secret key assigned to a merchant by PayFast, used alongside the merchant ID for payment form authentication.",
+      "type": "string",
+      "example": "46f0cd694581a"
+    },
+    {
+      "term": "passphrase",
+      "label": "Passphrase",
+      "description": "Optional security passphrase set by the merchant in their PayFast account, used to salt the MD5 signature. Required for subscription payments.",
+      "type": "string"
+    },
+    {
+      "term": "signature",
+      "label": "Signature",
+      "description": "MD5 hash of alphabetically sorted, URL-encoded payment parameters (optionally salted with the passphrase). Used to authenticate requests.",
+      "type": "string",
+      "format": "md5",
+      "example": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    },
+    {
+      "term": "token",
+      "label": "Subscription / Tokenization Token",
+      "description": "UUID identifying a recurring billing subscription or tokenized card agreement. Returned in the ITN after the first payment and used for all subsequent API calls.",
+      "type": "string",
+      "format": "uuid",
+      "example": "dc0521d3-55fe-269b-fa00-b647310d760f"
+    },
+    {
+      "term": "m_payment_id",
+      "label": "Merchant Payment ID",
+      "description": "Merchant-assigned reference ID for a payment, up to 100 characters. Returned in the ITN for reconciliation.",
+      "type": "string",
+      "maxLength": 100,
+      "example": "order-1234"
+    },
+    {
+      "term": "pf_payment_id",
+      "label": "PayFast Payment ID",
+      "description": "PayFast internal unique identifier for a payment transaction.",
+      "type": "string",
+      "example": "1124148"
+    },
+    {
+      "term": "amount_gross",
+      "label": "Gross Amount",
+      "description": "Total transaction amount paid by the buyer in ZAR, including PayFast fees.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "amount_fee",
+      "label": "PayFast Fee",
+      "description": "PayFast processing fee deducted from the gross amount in ZAR.",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "amount_net",
+      "label": "Net Amount",
+      "description": "Amount deposited into the merchant's PayFast account after fee deduction (amount_gross - amount_fee).",
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "term": "ITN",
+      "label": "Instant Transaction Notification",
+      "description": "Server-to-server webhook POST sent by PayFast to the merchant's notify_url upon payment completion, cancellation, or subscription events.",
+      "type": "concept"
+    },
+    {
+      "term": "subscription_type",
+      "label": "Subscription Type",
+      "description": "Determines the type of recurring payment agreement: 1=recurring billing (fixed schedule), 2=tokenization (merchant-initiated adhoc charges).",
+      "type": "integer",
+      "enum": [1, 2]
+    },
+    {
+      "term": "frequency",
+      "label": "Billing Frequency",
+      "description": "Numeric code representing how often a recurring subscription is billed: 3=monthly, 4=quarterly, 5=biannually, 6=annually.",
+      "type": "integer",
+      "enum": [3, 4, 5, 6]
+    },
+    {
+      "term": "cycles",
+      "label": "Billing Cycles",
+      "description": "Number of times a subscription will be billed. 0 means indefinite billing until cancelled.",
+      "type": "integer",
+      "minimum": 0
+    },
+    {
+      "term": "acc_type",
+      "label": "Bank Account Type",
+      "description": "Type of bank account for refund disbursement: 'current' or 'savings'.",
+      "type": "string",
+      "enum": ["current", "savings"]
+    },
+    {
+      "term": "payment_method",
+      "label": "Payment Method",
+      "description": "Code restricting which payment method the customer can use: cc=credit card, dc=debit card, ef=instant EFT, mp=Mobicred, sc=SCode, mc=MoreTyme.",
+      "type": "string"
+    },
+    {
+      "term": "uuid",
+      "label": "Onsite Payment UUID",
+      "description": "Unique identifier generated for an onsite (embedded) checkout session, passed to the PayFast JS library to render the payment widget.",
+      "type": "string",
+      "format": "uuid"
+    },
+    {
+      "term": "sandbox",
+      "label": "Sandbox / Test Mode",
+      "description": "Test environment at sandbox.payfast.co.za allowing merchants to simulate payments without real money. Refunds and onsite checkout are not available in sandbox mode.",
+      "type": "concept"
+    },
+    {
+      "term": "PCI-DSS",
+      "label": "PCI-DSS Level 1",
+      "description": "Payment Card Industry Data Security Standard Level 1 certification held by PayFast, the highest level of compliance for payment processors.",
+      "type": "concept"
+    },
+    {
+      "term": "ZAR",
+      "label": "South African Rand",
+      "description": "The only currency currently supported by PayFast. All monetary amounts are expressed in ZAR.",
+      "type": "concept"
+    }
+  ]
+}

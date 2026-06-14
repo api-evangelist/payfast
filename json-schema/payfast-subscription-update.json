@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/payfast/json-schema/payfast-subscription-update.json",
+  "title": "PayFast Subscription Update Request",
+  "description": "Schema for updating parameters of an existing PayFast recurring billing subscription.",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "cycles": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of remaining billing cycles. 0 means indefinite.",
+      "example": 12
+    },
+    "frequency": {
+      "type": "integer",
+      "enum": [3, 4, 5, 6],
+      "description": "Billing frequency: 3=monthly, 4=quarterly, 5=biannually, 6=annually",
+      "example": 3
+    },
+    "run_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Next billing run date in YYYY-MM-DD format",
+      "example": "2026-07-01"
+    },
+    "amount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "New recurring billing amount in cents (ZAR)",
+      "example": 9900
+    }
+  },
+  "additionalProperties": false
+}

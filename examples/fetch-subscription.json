@@ -1,0 +1,33 @@
+{
+  "title": "Fetch Subscription Details",
+  "description": "Retrieve the current details of a recurring billing subscription using its token.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.payfast.co.za/v1/subscriptions/dc0521d3-55fe-269b-fa00-b647310d760f/fetch",
+    "headers": {
+      "merchant-id": "10000100",
+      "version": "v1",
+      "timestamp": "2026-06-13T10:00:00+02:00",
+      "signature": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "status": "success",
+      "data": {
+        "response": {
+          "token": "dc0521d3-55fe-269b-fa00-b647310d760f",
+          "amount": 9900,
+          "cycles": 12,
+          "cycles_complete": 3,
+          "frequency": 3,
+          "run_date": "2026-07-01",
+          "status": 1,
+          "status_text": "Active"
+        }
+      }
+    }
+  }
+}

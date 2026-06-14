@@ -1,0 +1,31 @@
+{
+  "title": "Adhoc Charge on Tokenization Token",
+  "description": "Process a one-off charge against an existing tokenization agreement without a new checkout flow.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.payfast.co.za/v1/subscriptions/290ac9a6-25f1-cce4-5801-67a644068818/adhoc",
+    "headers": {
+      "Content-Type": "application/json",
+      "merchant-id": "10000100",
+      "version": "v1",
+      "timestamp": "2026-06-13T10:00:00+02:00",
+      "signature": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    },
+    "body": {
+      "amount": 500,
+      "item_name": "Test adhoc charge",
+      "item_description": "One-time service fee"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "status": "success",
+      "data": {
+        "response": true,
+        "message": "Adhoc charge processed"
+      }
+    }
+  }
+}

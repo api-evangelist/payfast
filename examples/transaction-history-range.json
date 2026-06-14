@@ -1,0 +1,39 @@
+{
+  "title": "Query Transaction History for a Date Range",
+  "description": "Retrieve a list of merchant transactions between two dates, paginated by offset and limit.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.payfast.co.za/v1/transactions/history?from=2026-06-01&to=2026-06-30&offset=0&limit=100",
+    "headers": {
+      "merchant-id": "10000100",
+      "version": "v1",
+      "timestamp": "2026-06-13T10:00:00+02:00",
+      "signature": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "status": "success",
+      "data": {
+        "response": [
+          {
+            "m_payment_id": "order-1234",
+            "pf_payment_id": "1124148",
+            "payment_status": "COMPLETE",
+            "item_name": "Premium Subscription",
+            "amount_gross": 99.00,
+            "amount_fee": 2.97,
+            "amount_net": 96.03,
+            "buyer_first_name": "Jane",
+            "buyer_last_name": "Smith",
+            "buyer_email_address": "jane@example.com",
+            "billing_date": "2026-06-01",
+            "payment_method": "cc"
+          }
+        ]
+      }
+    }
+  }
+}
