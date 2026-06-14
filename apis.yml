@@ -1,0 +1,129 @@
+name: PayFast
+description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, QR code payments, instant EFT bank transfers, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/payfast/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+aid: payfast
+type: Index
+tags:
+  - Payments
+  - Payment Gateway
+  - South Africa
+  - Subscriptions
+  - Recurring Billing
+  - Tokenization
+  - Instant EFT
+  - QR Code Payments
+  - Refunds
+  - Fintech
+apis:
+  - name: PayFast Payments API
+    description: Core REST API for initiating online payment transactions, generating payment identifiers for onsite checkout, and processing payments via credit card, Instant EFT, QR code, and 18+ other South African payment methods.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Payments
+      - Checkout
+      - Onsite
+      - Credit Card
+      - Instant EFT
+      - QR Code
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+      - type: Sandbox
+        url: https://sandbox.payfast.co.za
+  - name: PayFast Subscriptions API
+    description: REST API for managing recurring billing subscriptions, including fetching subscription details, pausing, unpausing, cancelling, updating subscription parameters, and processing adhoc charges against existing recurring billing agreements.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Subscriptions
+      - Recurring Billing
+      - Membership
+      - Billing
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+  - name: PayFast Tokenization API
+    description: REST API for managing tokenized recurring card payment agreements, allowing merchants to charge customers at future dates and amounts without storing card details directly. Supports adhoc charges on stored payment tokens.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Tokenization
+      - Recurring Payments
+      - Credit Card
+      - Card Storage
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+  - name: PayFast Transaction History API
+    description: REST API for querying merchant transaction history with support for date range queries, daily summaries, weekly aggregations, and monthly aggregations, enabling merchants to reconcile payments programmatically.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Transactions
+      - History
+      - Reporting
+      - Reconciliation
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+  - name: PayFast Credit Card Transactions API
+    description: REST API for querying individual credit card transaction details by transaction ID, giving merchants programmatic access to card payment records.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Credit Card
+      - Transactions
+      - Lookup
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+  - name: PayFast Refunds API
+    description: REST API for merchants to initiate and track refunds on completed transactions, specifying refund amount, reason, and account type for disbursement back to the customer.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developers.payfast.co.za/documentation
+    baseURL: https://api.payfast.co.za
+    tags:
+      - Refunds
+      - Payments
+      - Merchant Operations
+    properties:
+      - type: Documentation
+        url: https://developers.payfast.co.za/documentation
+common:
+  - type: Website
+    url: https://payfast.io
+  - type: Documentation
+    url: https://developers.payfast.co.za/documentation
+  - type: GitHubOrg
+    url: https://github.com/Payfast
+  - type: Pricing
+    url: https://payfast.io/fees
+  - type: StatusPage
+    url: https://status.payfast.io
+  - type: Blog
+    url: https://payfast.io/resources
+  - type: Support
+    url: https://support.payfast.help
+  - type: Plans
+    url: plans/payfast-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/payfast-rate-limits.yml
+  - type: FinOps
+    url: finops/payfast-finops.yml
+  - type: Authentication
+    url: https://developers.payfast.co.za/documentation
+  - type: Sandbox
+    url: https://sandbox.payfast.co.za
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

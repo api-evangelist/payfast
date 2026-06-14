@@ -1,0 +1,77 @@
+name: PayFast API Rate Limits
+description: PayFast REST API requests are authenticated using merchant-id, version, timestamp, and MD5 signature headers. Specific numeric rate limits are not publicly documented; however, API access is subject to fair-use policies and standard HTTP 429 responses when limits are exceeded. All API calls require valid merchant credentials and a properly computed signature.
+specificationVersion: '0.1'
+url: https://developers.payfast.co.za/documentation
+authentication:
+  method: Signature-based
+  headers:
+    - name: merchant-id
+      description: The merchant's unique identifier from their PayFast account
+    - name: version
+      description: API version string, currently "v1"
+    - name: timestamp
+      description: Request timestamp in ISO 8601 format without milliseconds
+    - name: signature
+      description: MD5 hash of all request parameters plus headers plus passphrase, with keys sorted alphabetically and values URL-encoded
+  notes: The passphrase is included in the signature computation but is not transmitted as a header. Sandbox credentials are available at sandbox.payfast.co.za under Settings > Integration.
+environments:
+  - name: Production
+    baseURL: https://api.payfast.co.za
+    notes: Live merchant credentials from payfast.co.za Settings > Integration
+  - name: Sandbox
+    baseURL: https://api.payfast.co.za
+    queryParam: testing=true
+    testCredentials:
+      merchantId: '10000100'
+      merchantKey: 46f0cd694581a
+      passphrase: jt7NOE43FZPn
+    notes: Append ?testing=true to all sandbox API requests
+rateLimits:
+  - name: Subscriptions API
+    description: Endpoints for fetch, pause, unpause, cancel, update, and adhoc operations on recurring billing subscriptions.
+    scope: per-merchant
+    type: request
+    notes: No specific numeric limit published; subject to fair-use policy
+    endpoints:
+      - GET /subscriptions/:token/fetch
+      - PUT /subscriptions/:token/pause
+      - PUT /subscriptions/:token/unpause
+      - PUT /subscriptions/:token/cancel
+      - PATCH /subscriptions/:token/update
+      - POST /subscriptions/:token/adhoc
+  - name: Transaction History API
+    description: Endpoints for querying transaction history by date range, day, week, or month.
+    scope: per-merchant
+    type: request
+    notes: No specific numeric limit published; subject to fair-use policy
+    endpoints:
+      - GET /transactions/history
+  - name: Credit Card Transactions API
+    description: Endpoint for fetching individual credit card transaction details by transaction ID.
+    scope: per-merchant
+    type: request
+    notes: No specific numeric limit published; subject to fair-use policy
+    endpoints:
+      - GET /transactions/creditcard
+  - name: Refunds API
+    description: Endpoints for fetching refund status and creating new refunds.
+    scope: per-merchant
+    type: request
+    notes: No specific numeric limit published; subject to fair-use policy
+    endpoints:
+      - GET /refunds/:payment_id
+      - POST /refunds/:payment_id
+  - name: Onsite Payments API
+    description: Endpoint for generating a payment identifier UUID used in onsite (embedded) checkout flows.
+    scope: per-merchant
+    type: request
+    notes: Not available in sandbox mode; production only
+    endpoints:
+      - POST /onsite/process
+errorCodes:
+  - code: '401'
+    description: Merchant authorization failed — check merchant-id, signature computation, and passphrase
+  - code: '429'
+    description: Too many requests — rate limit exceeded
+  - code: '400'
+    description: Bad request — invalid parameters or malformed signature

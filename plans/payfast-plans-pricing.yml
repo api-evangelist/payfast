@@ -1,0 +1,64 @@
+name: PayFast Plans and Pricing
+description: PayFast operates on a transaction-fee-only model with no monthly subscription or setup fees. Merchants pay per-transaction fees that vary by payment method. Merchants processing over R50,000 per month averaged over three months qualify for customized volume pricing via direct sales consultation.
+specificationVersion: '0.1'
+url: https://payfast.io/fees
+plans:
+  - name: Standard (Pay-As-You-Go)
+    description: Default plan for all PayFast merchants with no monthly fee. Access to all payment APIs including card payments, Instant EFT, QR codes, subscriptions, tokenization, refunds, and transaction history. Charges apply only on successful transactions.
+    url: https://payfast.io/fees
+    price: Free (transaction fees apply)
+    pricingModel: pay-per-transaction
+    features:
+      - Full REST API access
+      - Subscriptions and recurring billing API
+      - Tokenization API
+      - Refunds API
+      - Transaction history API
+      - Onsite payments integration
+      - Custom integration support
+      - 70+ plugin integrations
+      - Sandbox testing environment
+      - Merchant dashboard access
+      - Split payments
+      - Immediate payout option
+      - Multi-currency support
+      - Mobile app access
+      - PCI-DSS Level 1 compliance
+    fees:
+      creditCard:
+        rate: '3.2% + R2.00'
+        methods:
+          - Credit and Cheque Card
+          - Google Pay
+          - Apple Pay
+          - Samsung Pay
+          - Store Cards
+      instantEFT:
+        rate: '2.0% (min R2.00)'
+        methods:
+          - Instant EFT
+          - Capitec Pay
+      alternativePayments:
+        moreTyme: '5.5% + R2.00'
+        mukuruPay: '3.5% + R6.00'
+        scanToPay: '3.5% + R2.00'
+        snapScan: '3.5% + R2.00'
+        mobicred: '3.2%'
+        scode: '4.5% + R5.00'
+        zapper: '4.5% + R5.00'
+      additionalFees:
+        immediatePayout: '0.8% excl. VAT (min R14.00)'
+        payoutFee: 'R8.70 excl. VAT per payout'
+        refundFee: 'R2.00 excl. VAT per refund'
+  - name: Volume Pricing (Enterprise)
+    description: Customized pricing for merchants averaging over R50,000 in monthly transaction volume over a rolling three-month period. Negotiated rates via direct PayFast sales consultation.
+    url: https://payfast.io/fees
+    price: Custom (negotiated)
+    pricingModel: volume-negotiated
+    eligibility:
+      minimumMonthlyVolume: R50,000 (averaged over 3 months)
+    features:
+      - All Standard plan features
+      - Negotiated transaction fee rates
+      - Dedicated account management
+      - Volume-based fee reductions

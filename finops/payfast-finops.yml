@@ -1,0 +1,130 @@
+name: PayFast FinOps Framework
+description: FOCUS-aligned FinOps reference for teams integrating the PayFast API. Covers cost drivers from per-transaction fees across payment methods, payout fees, refund fees, and the immediate payout surcharge, along with optimization strategies for minimizing payment processing costs in South African e-commerce contexts.
+specificationVersion: '1.0'
+url: https://payfast.io/fees
+costDimensions:
+  - name: Transaction Fees
+    description: Primary cost for API consumers. Charged as a percentage of transaction value (plus a fixed ZAR component for most methods) on each successful payment. Rates vary by payment method.
+    billingModel: percentage-plus-fixed
+    currency: ZAR
+    costDrivers:
+      - name: Credit and Cheque Card
+        rate: '3.2% + R2.00'
+        methods:
+          - Visa
+          - Mastercard
+          - Google Pay
+          - Apple Pay
+          - Samsung Pay
+          - Store Cards
+      - name: Instant EFT
+        rate: '2.0% (min R2.00)'
+        methods:
+          - Instant EFT
+          - Capitec Pay
+        notes: Lowest-cost option for bank transfer payments
+      - name: MoreTyme (Buy Now Pay Later)
+        rate: '5.5% + R2.00'
+      - name: MukuruPay
+        rate: '3.5% + R6.00'
+      - name: QR Code Payments (Scan to Pay)
+        rate: '3.5% + R2.00'
+        methods:
+          - SnapScan
+          - Scan to Pay
+      - name: Mobicred
+        rate: '3.2%'
+        notes: No fixed component — percentage only
+      - name: Alternative QR / Voucher Methods
+        rate: '4.5% + R5.00'
+        methods:
+          - Scode
+          - Zapper
+  - name: Payout Fees
+    description: Fee charged per payout disbursement from the PayFast merchant balance to the merchant's bank account.
+    billingModel: per-transaction-fixed
+    currency: ZAR
+    costDrivers:
+      - name: Standard Payout
+        rate: 'R8.70 excl. VAT'
+        notes: Fixed fee regardless of payout value; consolidating payouts reduces this cost
+  - name: Immediate Payout Surcharge
+    description: Optional surcharge for accessing funds within minutes of settlement rather than waiting for the standard payout cycle.
+    billingModel: percentage
+    currency: ZAR
+    costDrivers:
+      - name: Immediate Payout
+        rate: '0.8% excl. VAT (min R14.00)'
+        notes: Use only when cash flow urgency justifies the additional cost
+  - name: Refund Fees
+    description: Per-refund processing fee charged when merchants issue refunds to customers via the Refunds API or merchant dashboard.
+    billingModel: per-transaction-fixed
+    currency: ZAR
+    costDrivers:
+      - name: Customer Refund
+        rate: 'R2.00 excl. VAT per refund'
+        notes: Original transaction fee is not returned when a refund is issued
+optimizationStrategies:
+  - name: Encourage Instant EFT Payments
+    description: Instant EFT (2.0%, min R2.00) and Capitec Pay offer the lowest transaction fees available on PayFast. Promoting these methods at checkout — especially for higher-value transactions — reduces per-transaction cost compared to card payments at 3.2% + R2.00.
+    impact: high
+    effort: low
+  - name: Consolidate Payouts
+    description: The payout fee is a fixed R8.70 per disbursement regardless of value. Batching payouts to occur less frequently (e.g., weekly rather than daily) reduces the total payout fee burden per rand disbursed.
+    impact: medium
+    effort: low
+  - name: Avoid Immediate Payout Unless Necessary
+    description: The 0.8% immediate payout surcharge (min R14.00) adds meaningful cost at scale. Use only when working capital requirements genuinely demand instant access; otherwise rely on the standard payout cycle.
+    impact: medium
+    effort: low
+  - name: Minimize Refund Volume
+    description: Each refund costs R2.00 excl. VAT on top of the lost transaction fee (which is not recovered on refund). Reducing refund rates through better product descriptions, fraud controls, and clear return policies directly lowers API cost.
+    impact: medium
+    effort: medium
+  - name: Negotiate Volume Pricing
+    description: Merchants averaging over R50,000 in monthly transaction volume (over a rolling three months) can negotiate custom rates below the standard published fees. Triggering this threshold is the single highest-impact cost reduction available.
+    impact: very-high
+    effort: medium
+    url: https://payfast.io/fees
+  - name: Avoid High-Fee Alternative Methods for Large Transactions
+    description: Methods like MoreTyme (5.5% + R2.00), Scode, and Zapper (4.5% + R5.00) carry the highest per-transaction fees. Where feasible, guide customers toward lower-cost methods (Instant EFT, card) for high-value purchases to reduce blended fee rates.
+    impact: medium
+    effort: low
+costAllocation:
+  - dimension: PaymentMethod
+    values:
+      - CreditCard
+      - InstantEFT
+      - CapitecPay
+      - MoreTyme
+      - MukuruPay
+      - ScanToPay
+      - SnapScan
+      - Mobicred
+      - Scode
+      - Zapper
+      - ApplePay
+      - GooglePay
+      - SamsungPay
+      - StoreCards
+  - dimension: TransactionType
+    values:
+      - Payment
+      - Subscription
+      - TokenizationCharge
+      - AdhocCharge
+      - Refund
+  - dimension: PayoutType
+    values:
+      - Standard
+      - Immediate
+monitoring:
+  - name: Transaction History
+    endpoint: /transactions/history
+    description: Query merchant transaction records by date range, day, week, or month to track fee accrual and payment method distribution
+  - name: Refund History
+    endpoint: /refunds/:payment_id
+    description: Fetch refund records to monitor refund volume and associated fees
+  - name: Merchant Dashboard
+    url: https://payfast.io
+    description: The PayFast merchant dashboard provides transaction reports, payout history, and fee summaries for manual cost monitoring
