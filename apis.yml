@@ -1,6 +1,6 @@
 name: PayFast
 description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, QR code payments, instant EFT bank transfers, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/payfast/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -21,7 +21,7 @@ tags:
 apis:
   - name: PayFast Payments API
     description: Core REST API for initiating online payment transactions, generating payment identifiers for onsite checkout, and processing payments via credit card, Instant EFT, QR code, and 18+ other South African payment methods.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
@@ -40,7 +40,7 @@ apis:
         url: https://sandbox.payfast.co.za
   - name: PayFast Subscriptions API
     description: REST API for managing recurring billing subscriptions, including fetching subscription details, pausing, unpausing, cancelling, updating subscription parameters, and processing adhoc charges against existing recurring billing agreements.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
@@ -53,7 +53,7 @@ apis:
         url: https://developers.payfast.co.za/documentation
   - name: PayFast Tokenization API
     description: REST API for managing tokenized recurring card payment agreements, allowing merchants to charge customers at future dates and amounts without storing card details directly. Supports adhoc charges on stored payment tokens.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
@@ -66,7 +66,7 @@ apis:
         url: https://developers.payfast.co.za/documentation
   - name: PayFast Transaction History API
     description: REST API for querying merchant transaction history with support for date range queries, daily summaries, weekly aggregations, and monthly aggregations, enabling merchants to reconcile payments programmatically.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
@@ -79,7 +79,7 @@ apis:
         url: https://developers.payfast.co.za/documentation
   - name: PayFast Credit Card Transactions API
     description: REST API for querying individual credit card transaction details by transaction ID, giving merchants programmatic access to card payment records.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
@@ -91,7 +91,7 @@ apis:
         url: https://developers.payfast.co.za/documentation
   - name: PayFast Refunds API
     description: REST API for merchants to initiate and track refunds on completed transactions, specifying refund amount, reason, and account type for disbursement back to the customer.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developers.payfast.co.za/documentation
     baseURL: https://api.payfast.co.za
     tags:
