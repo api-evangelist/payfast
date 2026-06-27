@@ -2,13 +2,27 @@
   "repo": "payfast",
   "feeds": [
     {
-      "source": "https://status.payfast.io",
+      "source": "https://status.payfast.io/history.atom",
       "feed_url": "https://status.payfast.io/history.atom",
       "title": "",
       "saved": 2,
+      "method": "feed"
+    },
+    {
+      "source": "https://payfast.io/blog/",
+      "feed_url": "https://payfast.io/feed/",
+      "title": "",
+      "saved": 1,
+      "method": "discovered"
+    },
+    {
+      "source": "https://status.payfast.io",
+      "feed_url": "https://status.payfast.io/history.atom",
+      "title": "",
+      "saved": 0,
       "method": "discovered"
     }
   ],
-  "post_count": 2,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 5,
+  "fetched": "2026-06-27T12:03:07Z"
 }
