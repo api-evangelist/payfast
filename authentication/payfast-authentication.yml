@@ -1,0 +1,18 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: merchantAuth
+  type: apiKey
+  in: header
+  parameter: merchant-id
+  description: PayFast API authentication uses an MD5 signature derived from the merchant ID,
+    passphrase, timestamp, and request data. Required headers include merchant-id, version,
+    timestamp, and signature.
+  sources:
+  - openapi/openapi.yml
