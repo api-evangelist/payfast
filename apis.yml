@@ -102,6 +102,8 @@ apis:
       - type: Documentation
         url: https://developers.payfast.co.za/documentation
 common:
+  - type: AgenticAccess
+    url: agentic-access/payfast-agentic-access.yml
   - type: DomainSecurity
     url: security/payfast-domain-security.yml
   - type: Authentication
