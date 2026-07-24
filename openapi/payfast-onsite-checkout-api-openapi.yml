@@ -1,0 +1,168 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Onsite Checkout API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Onsite Checkout
+  description: Generate payment identifiers for embedded (onsite) checkout flows
+paths:
+  /onsite/process:
+    post:
+      operationId: generatePaymentIdentifier
+      summary: Generate onsite payment identifier
+      description: 'Generate a UUID payment identifier for the PayFast onsite (embedded) checkout integration. The UUID is then used client-side with the PayFast JS library to render the embedded payment form. Not available in sandbox mode.
+
+        '
+      tags:
+      - Onsite Checkout
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OnsitePaymentRequest'
+      responses:
+        '200':
+          description: Payment identifier generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: Payment identifier UUID to pass to the PayFast JS library
+                    example: 550e8400-e29b-41d4-a716-446655440000
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    OnsitePaymentRequest:
+      type: object
+      required:
+      - merchant_id
+      - merchant_key
+      - amount
+      - item_name
+      - signature
+      properties:
+        merchant_id:
+          type: string
+          description: PayFast merchant ID
+          example: '10000100'
+        merchant_key:
+          type: string
+          description: PayFast merchant key
+          example: 46f0cd694581a
+        return_url:
+          type: string
+          format: uri
+          description: URL to redirect to after successful payment
+          example: https://www.example.com/return
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect to if customer cancels
+          example: https://www.example.com/cancel
+        notify_url:
+          type: string
+          format: uri
+          description: ITN notification URL (server-to-server webhook)
+          example: https://www.example.com/notify
+        name_first:
+          type: string
+          description: Customer first name
+          example: Jane
+        name_last:
+          type: string
+          description: Customer last name
+          example: Smith
+        email_address:
+          type: string
+          format: email
+          description: Customer email address
+          example: jane@example.com
+        cell_number:
+          type: string
+          description: Customer cell number
+          example: '+27821234567'
+        m_payment_id:
+          type: string
+          description: Merchant payment reference ID
+          example: order-1234
+        amount:
+          type: string
+          description: Payment amount (ZAR, 2 decimal places)
+          example: '99.00'
+        item_name:
+          type: string
+          description: Item name
+          maxLength: 100
+          example: Premium subscription
+        item_description:
+          type: string
+          description: Item description
+          maxLength: 255
+          example: Monthly premium plan
+        currency:
+          type: string
+          description: Currency (default ZAR)
+          default: ZAR
+          example: ZAR
+        payment_method:
+          type: string
+          description: Restrict payment to a specific method
+          example: cc
+        signature:
+          type: string
+          description: MD5 signature of sorted payment parameters
+          example: ad3e6c84d5e5f374a3a0431bc5acbc90
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

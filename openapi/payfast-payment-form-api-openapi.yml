@@ -1,0 +1,237 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Payment Form API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Payment Form
+  description: Standard redirect-based payment form integration
+paths:
+  /eng/process:
+    post:
+      operationId: initiatePayment
+      summary: Initiate a standard payment (form redirect)
+      description: 'Standard payment form POST to initiate a PayFast redirect checkout. The customer is redirected to PayFast to complete payment. This endpoint is on the www.payfast.co.za (or sandbox.payfast.co.za) domain.
+
+        '
+      tags:
+      - Payment Form
+      servers:
+      - url: https://www.payfast.co.za
+        description: Production payment form
+      - url: https://sandbox.payfast.co.za
+        description: Sandbox payment form
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaymentFormRequest'
+      responses:
+        '302':
+          description: Redirects the customer to the PayFast payment page
+components:
+  schemas:
+    PaymentFormRequest:
+      type: object
+      required:
+      - merchant_id
+      - merchant_key
+      - amount
+      - item_name
+      - signature
+      properties:
+        merchant_id:
+          type: string
+          description: PayFast merchant ID
+          example: '10000100'
+        merchant_key:
+          type: string
+          description: PayFast merchant key
+          example: 46f0cd694581a
+        return_url:
+          type: string
+          format: uri
+          description: URL to redirect to after successful payment
+          example: https://www.example.com/return
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect to if customer cancels
+          example: https://www.example.com/cancel
+        notify_url:
+          type: string
+          format: uri
+          description: ITN notification URL
+          example: https://www.example.com/notify
+        name_first:
+          type: string
+          description: Customer first name
+          example: Jane
+        name_last:
+          type: string
+          description: Customer last name
+          example: Smith
+        email_address:
+          type: string
+          format: email
+          description: Customer email address
+          example: jane@example.com
+        cell_number:
+          type: string
+          description: Customer cell number
+          example: '+27821234567'
+        m_payment_id:
+          type: string
+          description: Merchant payment reference ID (up to 100 chars)
+          maxLength: 100
+          example: order-1234
+        amount:
+          type: string
+          description: Payment amount formatted to 2 decimal places (ZAR)
+          example: '99.00'
+        item_name:
+          type: string
+          description: Name of item being purchased
+          maxLength: 100
+          example: Premium subscription
+        item_description:
+          type: string
+          description: Description of item
+          maxLength: 255
+          example: Monthly premium plan
+        custom_int1:
+          type: integer
+          description: Custom integer field 1
+        custom_int2:
+          type: integer
+          description: Custom integer field 2
+        custom_int3:
+          type: integer
+          description: Custom integer field 3
+        custom_int4:
+          type: integer
+          description: Custom integer field 4
+        custom_int5:
+          type: integer
+          description: Custom integer field 5
+        custom_str1:
+          type: string
+          description: Custom string field 1
+          maxLength: 255
+        custom_str2:
+          type: string
+          description: Custom string field 2
+          maxLength: 255
+        custom_str3:
+          type: string
+          description: Custom string field 3
+          maxLength: 255
+        custom_str4:
+          type: string
+          description: Custom string field 4
+          maxLength: 255
+        custom_str5:
+          type: string
+          description: Custom string field 5
+          maxLength: 255
+        email_confirmation:
+          type: integer
+          description: Send confirmation email (1=yes)
+          enum:
+          - 0
+          - 1
+          example: 1
+        confirmation_address:
+          type: string
+          format: email
+          description: Email address for confirmation
+          example: merchant@example.com
+        currency:
+          type: string
+          description: Transaction currency (default ZAR)
+          default: ZAR
+          example: ZAR
+        payment_method:
+          type: string
+          description: Restrict payment to a specific method (cc, dc, ef, etc.)
+          example: cc
+        subscription_type:
+          type: integer
+          description: Subscription type (1=recurring billing, 2=tokenization)
+          enum:
+          - 1
+          - 2
+          example: 1
+        billing_date:
+          type: string
+          format: date
+          description: First billing date for subscriptions (YYYY-MM-DD)
+          example: '2026-07-01'
+        recurring_amount:
+          type: string
+          description: Recurring billing amount (ZAR, 2 decimal places)
+          example: '99.00'
+        frequency:
+          type: integer
+          description: 'Billing frequency (3=monthly, 4=quarterly, 5=biannually, 6=annually)
+
+            '
+          enum:
+          - 3
+          - 4
+          - 5
+          - 6
+          example: 3
+        cycles:
+          type: integer
+          description: Number of billing cycles (0=indefinite)
+          example: 12
+        subscription_notify_email:
+          type: integer
+          description: Notify merchant of subscription updates via email (1=yes)
+          enum:
+          - 0
+          - 1
+          example: 1
+        subscription_notify_webhook:
+          type: integer
+          description: Notify merchant of subscription updates via webhook (1=yes)
+          enum:
+          - 0
+          - 1
+          example: 1
+        subscription_notify_buyer:
+          type: integer
+          description: Notify buyer of subscription updates (1=yes)
+          enum:
+          - 0
+          - 1
+          example: 1
+        signature:
+          type: string
+          description: MD5 signature of the payment parameters
+          example: ad3e6c84d5e5f374a3a0431bc5acbc90
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

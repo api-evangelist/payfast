@@ -1,0 +1,365 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Subscriptions API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Subscriptions
+  description: Manage recurring billing subscription agreements
+paths:
+  /subscriptions/{token}/fetch:
+    get:
+      operationId: fetchSubscription
+      summary: Fetch subscription details
+      description: Retrieve the current details of a recurring billing subscription by its token.
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions/{token}/pause:
+    put:
+      operationId: pauseSubscription
+      summary: Pause a subscription
+      description: Pause a recurring billing subscription for a specified number of billing cycles.
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cycles:
+                  type: integer
+                  description: Number of cycles to pause the subscription for (0 = indefinitely)
+                  example: 1
+      responses:
+        '200':
+          description: Subscription paused successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions/{token}/unpause:
+    put:
+      operationId: unpauseSubscription
+      summary: Unpause a subscription
+      description: Resume a paused recurring billing subscription.
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription unpaused successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions/{token}/cancel:
+    put:
+      operationId: cancelSubscription
+      summary: Cancel a subscription
+      description: Permanently cancel a recurring billing subscription agreement.
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions/{token}/update:
+    patch:
+      operationId: updateSubscription
+      summary: Update subscription parameters
+      description: 'Update one or more parameters of an existing recurring billing subscription such as billing cycles, frequency, run date, or amount.
+
+        '
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cycles:
+                  type: integer
+                  description: Number of remaining billing cycles
+                  example: 12
+                frequency:
+                  type: integer
+                  description: 'Billing frequency (3=monthly, 4=quarterly, 5=biannually, 6=annually)
+
+                    '
+                  enum:
+                  - 3
+                  - 4
+                  - 5
+                  - 6
+                  example: 3
+                run_date:
+                  type: string
+                  format: date
+                  description: Next billing run date (YYYY-MM-DD)
+                  example: '2026-07-01'
+                amount:
+                  type: integer
+                  description: New billing amount in cents (ZAR)
+                  example: 9900
+      responses:
+        '200':
+          description: Subscription updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions/{token}/adhoc:
+    post:
+      operationId: adhocSubscriptionCharge
+      summary: Adhoc charge on subscription token
+      description: 'Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
+
+        '
+      tags:
+      - Subscriptions
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhocChargeRequest'
+      responses:
+        '200':
+          description: Adhoc charge processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhocChargeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    SubscriptionActionResponse:
+      type: object
+      description: Response from a subscription state-change action
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              description: Whether the action was successful
+              example: true
+            message:
+              type: string
+              description: Human-readable result message
+              example: Subscription paused
+    AdhocChargeRequest:
+      type: object
+      required:
+      - amount
+      - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: Premium plan upgrade
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: One-time upgrade charge
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
+    SubscriptionResponse:
+      type: object
+      description: Details of a recurring billing subscription
+      properties:
+        code:
+          type: integer
+          description: Response code
+          example: 200
+        status:
+          type: string
+          description: Response status
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                token:
+                  type: string
+                  format: uuid
+                  description: Subscription token
+                  example: dc0521d3-55fe-269b-fa00-b647310d760f
+                amount:
+                  type: integer
+                  description: Subscription billing amount in cents (ZAR)
+                  example: 9900
+                cycles:
+                  type: integer
+                  description: Total number of billing cycles
+                  example: 12
+                cycles_complete:
+                  type: integer
+                  description: Number of billing cycles completed
+                  example: 3
+                frequency:
+                  type: integer
+                  description: Billing frequency code
+                  enum:
+                  - 3
+                  - 4
+                  - 5
+                  - 6
+                  example: 3
+                run_date:
+                  type: string
+                  format: date
+                  description: Next scheduled billing date
+                  example: '2026-07-01'
+                status:
+                  type: integer
+                  description: Subscription status (1=active, 0=cancelled)
+                  example: 1
+                status_text:
+                  type: string
+                  description: Human-readable status
+                  example: Active
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
+  responses:
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

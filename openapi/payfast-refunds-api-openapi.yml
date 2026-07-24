@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Refunds API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Refunds
+  description: Initiate and track refunds on completed transactions
+paths:
+  /refunds/{id}:
+    get:
+      operationId: fetchRefund
+      summary: Fetch refund details
+      description: Retrieve the details of a specific refund by its ID.
+      tags:
+      - Refunds
+      parameters:
+      - $ref: '#/components/parameters/refundId'
+      responses:
+        '200':
+          description: Refund details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRefund
+      summary: Create a refund
+      description: 'Initiate a refund for a completed transaction. Specify the refund amount, reason, and account type. Refunds are not available in sandbox mode.
+
+        '
+      tags:
+      - Refunds
+      parameters:
+      - $ref: '#/components/parameters/refundId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+      responses:
+        '200':
+          description: Refund created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    RefundResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Refund ID
+                  example: dc0521d3-55fe-269b-fa00-b647310d760f
+                payment_id:
+                  type: string
+                  description: Original PayFast payment ID
+                  example: '1124148'
+                merchant_id:
+                  type: string
+                  description: Merchant ID
+                  example: '10000100'
+                refund_amount:
+                  type: number
+                  format: float
+                  description: Refunded amount (ZAR)
+                  example: 50.0
+                status:
+                  type: string
+                  description: Refund status
+                  example: COMPLETE
+                created:
+                  type: string
+                  format: date-time
+                  description: Refund creation timestamp
+                  example: '2026-06-13T10:00:00Z'
+    RefundRequest:
+      type: object
+      required:
+      - amount
+      properties:
+        amount:
+          type: integer
+          description: Refund amount in cents (ZAR). Must not exceed original transaction amount.
+          example: 5000
+        reason:
+          type: string
+          description: Reason for the refund
+          maxLength: 255
+          example: Product returned by customer
+        acc_type:
+          type: string
+          description: Account type for disbursement
+          enum:
+          - current
+          - savings
+          example: savings
+        notify_buyer:
+          type: integer
+          description: Whether to notify the buyer (1=yes, 0=no). Defaults to 1.
+          enum:
+          - 0
+          - 1
+          default: 1
+          example: 1
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    refundId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the transaction to refund
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

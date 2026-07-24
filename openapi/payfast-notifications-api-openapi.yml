@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Notifications API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Notifications
+  description: Validate ITN (Instant Transaction Notification) webhooks
+paths:
+  /eng/query/validate:
+    post:
+      operationId: validateITN
+      summary: Validate Instant Transaction Notification (ITN)
+      description: 'Server-to-server validation call to confirm that an Instant Transaction Notification (webhook) from PayFast is genuine. Returns "VALID" or "INVALID".
+
+        '
+      tags:
+      - Notifications
+      servers:
+      - url: https://www.payfast.co.za
+        description: Production
+      - url: https://sandbox.payfast.co.za
+        description: Sandbox
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              description: The ITN parameter string received in the notification POST
+      responses:
+        '200':
+          description: Validation result
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                - VALID
+                - INVALID
+components:
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

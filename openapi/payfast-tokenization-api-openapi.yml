@@ -1,0 +1,145 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions Tokenization API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Tokenization
+  description: Manage tokenized card payment agreements (adhoc charges)
+paths:
+  /subscriptions/{token}/adhoc:
+    post:
+      operationId: adhocSubscriptionCharge
+      summary: Adhoc charge on subscription token
+      description: 'Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
+
+        '
+      tags:
+      - Tokenization
+      parameters:
+      - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhocChargeRequest'
+      responses:
+        '200':
+          description: Adhoc charge processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhocChargeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    AdhocChargeRequest:
+      type: object
+      required:
+      - amount
+      - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: Premium plan upgrade
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: One-time upgrade charge
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '

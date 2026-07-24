@@ -1,0 +1,134 @@
+openapi: 3.1.0
+info:
+  title: PayFast Credit Card Transactions API
+  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+
+    '
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+- url: https://api.payfast.co.za/v1
+  description: Production API server
+- url: https://sandbox.payfast.co.za/v1
+  description: Sandbox / test server
+security:
+- merchantAuth: []
+tags:
+- name: Credit Card Transactions
+  description: Query individual credit card transaction details
+paths:
+  /process/query/{token}:
+    get:
+      operationId: fetchCreditCardTransaction
+      summary: Fetch credit card transaction details
+      description: Retrieve the details of a specific credit card transaction by its token/ID.
+      tags:
+      - Credit Card Transactions
+      parameters:
+      - name: token
+        in: path
+        required: true
+        description: The credit card transaction token or ID
+        schema:
+          type: string
+        example: '1124148'
+      responses:
+        '200':
+          description: Credit card transaction details returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardTransactionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    CreditCardTransactionResponse:
+      type: object
+      description: Credit card transaction details
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                pf_payment_id:
+                  type: string
+                  description: PayFast payment ID
+                  example: '1124148'
+                payment_status:
+                  type: string
+                  example: COMPLETE
+                amount_gross:
+                  type: number
+                  format: float
+                  example: 150.0
+                amount_fee:
+                  type: number
+                  format: float
+                  example: 4.5
+                amount_net:
+                  type: number
+                  format: float
+                  example: 145.5
+                card_number:
+                  type: string
+                  description: Masked card number
+                  example: 4***********1234
+                card_expiry:
+                  type: string
+                  description: Card expiry (MM/YY)
+                  example: 12/28
+  responses:
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: 'PayFast API authentication uses an MD5 signature derived from the merchant ID, passphrase, timestamp, and request data. Required headers include merchant-id, version, timestamp, and signature.
+
+        '
