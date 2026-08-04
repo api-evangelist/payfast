@@ -1,0 +1,28 @@
+{
+  "provider": "payfast",
+  "sources": [
+    "payfast-credit-card-transactions-api-openapi.yml",
+    "payfast-notifications-api-openapi.yml",
+    "payfast-onsite-checkout-api-openapi.yml",
+    "payfast-payment-form-api-openapi.yml",
+    "payfast-refunds-api-openapi.yml",
+    "payfast-subscriptions-api-openapi.yml",
+    "payfast-tokenization-api-openapi.yml",
+    "payfast-transaction-history-api-openapi.yml"
+  ],
+  "outputs": [
+    "payfast-credit-card-transactions-api-openapi.yml",
+    "payfast-notifications-api-openapi.yml",
+    "payfast-onsite-checkout-api-openapi.yml",
+    "payfast-payment-form-api-openapi.yml",
+    "payfast-refunds-api-openapi.yml",
+    "payfast-subscriptions-api-openapi.yml",
+    "payfast-tokenization-api-openapi.yml",
+    "payfast-transaction-history-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

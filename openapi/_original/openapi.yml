@@ -1,0 +1,1172 @@
+openapi: 3.1.0
+info:
+  title: PayFast API
+  description: >
+    South African payment gateway providing REST APIs for online payment
+    processing, subscription billing, tokenized recurring card payments, onsite
+    checkout, and merchant refunds. Trusted by 80,000+ South African businesses
+    and certified PCI-DSS Level 1.
+  version: v1
+  contact:
+    name: PayFast Developer Support
+    url: https://support.payfast.help
+  license:
+    name: Proprietary
+    url: https://payfast.io
+servers:
+  - url: https://api.payfast.co.za/v1
+    description: Production API server
+  - url: https://sandbox.payfast.co.za/v1
+    description: Sandbox / test server
+
+security:
+  - merchantAuth: []
+
+tags:
+  - name: Subscriptions
+    description: Manage recurring billing subscription agreements
+  - name: Tokenization
+    description: Manage tokenized card payment agreements (adhoc charges)
+  - name: Transaction History
+    description: Query merchant transaction history with date range and aggregations
+  - name: Credit Card Transactions
+    description: Query individual credit card transaction details
+  - name: Refunds
+    description: Initiate and track refunds on completed transactions
+  - name: Onsite Checkout
+    description: Generate payment identifiers for embedded (onsite) checkout flows
+  - name: Payment Form
+    description: Standard redirect-based payment form integration
+  - name: Notifications
+    description: Validate ITN (Instant Transaction Notification) webhooks
+
+paths:
+  # ── Subscriptions ────────────────────────────────────────────────────────
+  /subscriptions/{token}/fetch:
+    get:
+      operationId: fetchSubscription
+      summary: Fetch subscription details
+      description: Retrieve the current details of a recurring billing subscription by its token.
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /subscriptions/{token}/pause:
+    put:
+      operationId: pauseSubscription
+      summary: Pause a subscription
+      description: Pause a recurring billing subscription for a specified number of billing cycles.
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cycles:
+                  type: integer
+                  description: Number of cycles to pause the subscription for (0 = indefinitely)
+                  example: 1
+      responses:
+        '200':
+          description: Subscription paused successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /subscriptions/{token}/unpause:
+    put:
+      operationId: unpauseSubscription
+      summary: Unpause a subscription
+      description: Resume a paused recurring billing subscription.
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription unpaused successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /subscriptions/{token}/cancel:
+    put:
+      operationId: cancelSubscription
+      summary: Cancel a subscription
+      description: Permanently cancel a recurring billing subscription agreement.
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      responses:
+        '200':
+          description: Subscription cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /subscriptions/{token}/update:
+    patch:
+      operationId: updateSubscription
+      summary: Update subscription parameters
+      description: >
+        Update one or more parameters of an existing recurring billing
+        subscription such as billing cycles, frequency, run date, or amount.
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cycles:
+                  type: integer
+                  description: Number of remaining billing cycles
+                  example: 12
+                frequency:
+                  type: integer
+                  description: >
+                    Billing frequency (3=monthly, 4=quarterly, 5=biannually,
+                    6=annually)
+                  enum: [3, 4, 5, 6]
+                  example: 3
+                run_date:
+                  type: string
+                  format: date
+                  description: Next billing run date (YYYY-MM-DD)
+                  example: '2026-07-01'
+                amount:
+                  type: integer
+                  description: New billing amount in cents (ZAR)
+                  example: 9900
+      responses:
+        '200':
+          description: Subscription updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionActionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /subscriptions/{token}/adhoc:
+    post:
+      operationId: adhocSubscriptionCharge
+      summary: Adhoc charge on subscription token
+      description: >
+        Process an adhoc (one-off) charge against an existing recurring billing
+        or tokenization token without requiring a new payment flow.
+      tags:
+        - Subscriptions
+        - Tokenization
+      parameters:
+        - $ref: '#/components/parameters/subscriptionToken'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdhocChargeRequest'
+      responses:
+        '200':
+          description: Adhoc charge processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdhocChargeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ── Transaction History ───────────────────────────────────────────────────
+  /transactions/history:
+    get:
+      operationId: getTransactionHistoryRange
+      summary: Get transaction history for a date range
+      description: >
+        Retrieve a list of transactions for the authenticated merchant within
+        a specified date range. Results are paginated via offset and limit.
+      tags:
+        - Transaction History
+      parameters:
+        - name: from
+          in: query
+          description: Start date of the range (YYYY-MM-DD). Defaults to today.
+          schema:
+            type: string
+            format: date
+          example: '2026-06-01'
+        - name: to
+          in: query
+          description: End date of the range (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+          example: '2026-06-30'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Transaction list returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /transactions/history/daily:
+    get:
+      operationId: getDailyTransactionHistory
+      summary: Get daily transaction summary
+      description: Retrieve a daily aggregated summary of transactions for a given date.
+      tags:
+        - Transaction History
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: The date to retrieve the daily summary for (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+          example: '2026-06-12'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Daily summary returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /transactions/history/weekly:
+    get:
+      operationId: getWeeklyTransactionHistory
+      summary: Get weekly transaction summary
+      description: Retrieve a weekly aggregated summary of transactions for the week containing the specified date.
+      tags:
+        - Transaction History
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: A date within the desired week (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+          example: '2026-06-09'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Weekly summary returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /transactions/history/monthly:
+    get:
+      operationId: getMonthlyTransactionHistory
+      summary: Get monthly transaction summary
+      description: Retrieve a monthly aggregated summary of transactions for the specified month.
+      tags:
+        - Transaction History
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: Year and month (YYYY-MM)
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}$'
+          example: '2026-06'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Monthly summary returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ── Credit Card Transactions ──────────────────────────────────────────────
+  /process/query/{token}:
+    get:
+      operationId: fetchCreditCardTransaction
+      summary: Fetch credit card transaction details
+      description: Retrieve the details of a specific credit card transaction by its token/ID.
+      tags:
+        - Credit Card Transactions
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The credit card transaction token or ID
+          schema:
+            type: string
+          example: '1124148'
+      responses:
+        '200':
+          description: Credit card transaction details returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardTransactionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ── Refunds ───────────────────────────────────────────────────────────────
+  /refunds/{id}:
+    get:
+      operationId: fetchRefund
+      summary: Fetch refund details
+      description: Retrieve the details of a specific refund by its ID.
+      tags:
+        - Refunds
+      parameters:
+        - $ref: '#/components/parameters/refundId'
+      responses:
+        '200':
+          description: Refund details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createRefund
+      summary: Create a refund
+      description: >
+        Initiate a refund for a completed transaction. Specify the refund amount,
+        reason, and account type. Refunds are not available in sandbox mode.
+      tags:
+        - Refunds
+      parameters:
+        - $ref: '#/components/parameters/refundId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+      responses:
+        '200':
+          description: Refund created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefundResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ── Onsite Checkout ───────────────────────────────────────────────────────
+  /onsite/process:
+    post:
+      operationId: generatePaymentIdentifier
+      summary: Generate onsite payment identifier
+      description: >
+        Generate a UUID payment identifier for the PayFast onsite (embedded)
+        checkout integration. The UUID is then used client-side with the
+        PayFast JS library to render the embedded payment form.
+        Not available in sandbox mode.
+      tags:
+        - Onsite Checkout
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OnsitePaymentRequest'
+      responses:
+        '200':
+          description: Payment identifier generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: Payment identifier UUID to pass to the PayFast JS library
+                    example: '550e8400-e29b-41d4-a716-446655440000'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  # ── Payment Form / ITN Validation ─────────────────────────────────────────
+  /eng/process:
+    post:
+      operationId: initiatePayment
+      summary: Initiate a standard payment (form redirect)
+      description: >
+        Standard payment form POST to initiate a PayFast redirect checkout.
+        The customer is redirected to PayFast to complete payment.
+        This endpoint is on the www.payfast.co.za (or sandbox.payfast.co.za) domain.
+      tags:
+        - Payment Form
+      servers:
+        - url: https://www.payfast.co.za
+          description: Production payment form
+        - url: https://sandbox.payfast.co.za
+          description: Sandbox payment form
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaymentFormRequest'
+      responses:
+        '302':
+          description: Redirects the customer to the PayFast payment page
+
+  /eng/query/validate:
+    post:
+      operationId: validateITN
+      summary: Validate Instant Transaction Notification (ITN)
+      description: >
+        Server-to-server validation call to confirm that an Instant Transaction
+        Notification (webhook) from PayFast is genuine. Returns "VALID" or
+        "INVALID".
+      tags:
+        - Notifications
+      servers:
+        - url: https://www.payfast.co.za
+          description: Production
+        - url: https://sandbox.payfast.co.za
+          description: Sandbox
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              description: The ITN parameter string received in the notification POST
+      responses:
+        '200':
+          description: Validation result
+          content:
+            text/plain:
+              schema:
+                type: string
+                enum:
+                  - VALID
+                  - INVALID
+
+components:
+  securitySchemes:
+    merchantAuth:
+      type: apiKey
+      in: header
+      name: merchant-id
+      description: >
+        PayFast API authentication uses an MD5 signature derived from the
+        merchant ID, passphrase, timestamp, and request data. Required headers
+        include merchant-id, version, timestamp, and signature.
+
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: 'dc0521d3-55fe-269b-fa00-b647310d760f'
+
+    refundId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the transaction to refund
+      schema:
+        type: string
+        format: uuid
+      example: 'dc0521d3-55fe-269b-fa00-b647310d760f'
+
+    offset:
+      name: offset
+      in: query
+      description: Pagination offset (number of records to skip)
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      example: 0
+
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of records to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 1000
+      example: 100
+
+  schemas:
+    SubscriptionResponse:
+      type: object
+      description: Details of a recurring billing subscription
+      properties:
+        code:
+          type: integer
+          description: Response code
+          example: 200
+        status:
+          type: string
+          description: Response status
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                token:
+                  type: string
+                  format: uuid
+                  description: Subscription token
+                  example: 'dc0521d3-55fe-269b-fa00-b647310d760f'
+                amount:
+                  type: integer
+                  description: Subscription billing amount in cents (ZAR)
+                  example: 9900
+                cycles:
+                  type: integer
+                  description: Total number of billing cycles
+                  example: 12
+                cycles_complete:
+                  type: integer
+                  description: Number of billing cycles completed
+                  example: 3
+                frequency:
+                  type: integer
+                  description: Billing frequency code
+                  enum: [3, 4, 5, 6]
+                  example: 3
+                run_date:
+                  type: string
+                  format: date
+                  description: Next scheduled billing date
+                  example: '2026-07-01'
+                status:
+                  type: integer
+                  description: Subscription status (1=active, 0=cancelled)
+                  example: 1
+                status_text:
+                  type: string
+                  description: Human-readable status
+                  example: 'Active'
+
+    SubscriptionActionResponse:
+      type: object
+      description: Response from a subscription state-change action
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              description: Whether the action was successful
+              example: true
+            message:
+              type: string
+              description: Human-readable result message
+              example: 'Subscription paused'
+
+    AdhocChargeRequest:
+      type: object
+      required:
+        - amount
+        - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: 'Premium plan upgrade'
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: 'One-time upgrade charge'
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: 'Adhoc charge processed'
+
+    TransactionHistoryResponse:
+      type: object
+      description: Merchant transaction history results
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+
+    Transaction:
+      type: object
+      description: A single merchant transaction record
+      properties:
+        m_payment_id:
+          type: string
+          description: Merchant payment reference ID
+          example: 'order-1234'
+        pf_payment_id:
+          type: string
+          description: PayFast internal payment ID
+          example: '1124148'
+        payment_status:
+          type: string
+          description: Payment status
+          enum:
+            - COMPLETE
+            - FAILED
+            - PENDING
+          example: 'COMPLETE'
+        item_name:
+          type: string
+          description: Item name
+          example: 'Premium subscription'
+        item_description:
+          type: string
+          description: Item description
+          example: 'Monthly premium plan'
+        amount_gross:
+          type: number
+          format: float
+          description: Gross transaction amount (ZAR)
+          example: 99.00
+        amount_fee:
+          type: number
+          format: float
+          description: PayFast fee (ZAR)
+          example: 2.97
+        amount_net:
+          type: number
+          format: float
+          description: Net amount received by merchant (ZAR)
+          example: 96.03
+        buyer_first_name:
+          type: string
+          description: Buyer first name
+          example: 'Jane'
+        buyer_last_name:
+          type: string
+          description: Buyer last name
+          example: 'Smith'
+        buyer_email_address:
+          type: string
+          format: email
+          description: Buyer email address
+          example: 'jane.smith@example.com'
+        token:
+          type: string
+          format: uuid
+          description: Subscription or tokenization token (if applicable)
+          example: 'dc0521d3-55fe-269b-fa00-b647310d760f'
+        billing_date:
+          type: string
+          format: date
+          description: Billing date
+          example: '2026-06-01'
+        payment_method:
+          type: string
+          description: Payment method used
+          example: 'cc'
+
+    CreditCardTransactionResponse:
+      type: object
+      description: Credit card transaction details
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                pf_payment_id:
+                  type: string
+                  description: PayFast payment ID
+                  example: '1124148'
+                payment_status:
+                  type: string
+                  example: 'COMPLETE'
+                amount_gross:
+                  type: number
+                  format: float
+                  example: 150.00
+                amount_fee:
+                  type: number
+                  format: float
+                  example: 4.50
+                amount_net:
+                  type: number
+                  format: float
+                  example: 145.50
+                card_number:
+                  type: string
+                  description: Masked card number
+                  example: '4***********1234'
+                card_expiry:
+                  type: string
+                  description: Card expiry (MM/YY)
+                  example: '12/28'
+
+    RefundRequest:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: integer
+          description: Refund amount in cents (ZAR). Must not exceed original transaction amount.
+          example: 5000
+        reason:
+          type: string
+          description: Reason for the refund
+          maxLength: 255
+          example: 'Product returned by customer'
+        acc_type:
+          type: string
+          description: Account type for disbursement
+          enum:
+            - current
+            - savings
+          example: 'savings'
+        notify_buyer:
+          type: integer
+          description: Whether to notify the buyer (1=yes, 0=no). Defaults to 1.
+          enum: [0, 1]
+          default: 1
+          example: 1
+
+    RefundResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: 'success'
+        data:
+          type: object
+          properties:
+            response:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: Refund ID
+                  example: 'dc0521d3-55fe-269b-fa00-b647310d760f'
+                payment_id:
+                  type: string
+                  description: Original PayFast payment ID
+                  example: '1124148'
+                merchant_id:
+                  type: string
+                  description: Merchant ID
+                  example: '10000100'
+                refund_amount:
+                  type: number
+                  format: float
+                  description: Refunded amount (ZAR)
+                  example: 50.00
+                status:
+                  type: string
+                  description: Refund status
+                  example: 'COMPLETE'
+                created:
+                  type: string
+                  format: date-time
+                  description: Refund creation timestamp
+                  example: '2026-06-13T10:00:00Z'
+
+    OnsitePaymentRequest:
+      type: object
+      required:
+        - merchant_id
+        - merchant_key
+        - amount
+        - item_name
+        - signature
+      properties:
+        merchant_id:
+          type: string
+          description: PayFast merchant ID
+          example: '10000100'
+        merchant_key:
+          type: string
+          description: PayFast merchant key
+          example: '46f0cd694581a'
+        return_url:
+          type: string
+          format: uri
+          description: URL to redirect to after successful payment
+          example: 'https://www.example.com/return'
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect to if customer cancels
+          example: 'https://www.example.com/cancel'
+        notify_url:
+          type: string
+          format: uri
+          description: ITN notification URL (server-to-server webhook)
+          example: 'https://www.example.com/notify'
+        name_first:
+          type: string
+          description: Customer first name
+          example: 'Jane'
+        name_last:
+          type: string
+          description: Customer last name
+          example: 'Smith'
+        email_address:
+          type: string
+          format: email
+          description: Customer email address
+          example: 'jane@example.com'
+        cell_number:
+          type: string
+          description: Customer cell number
+          example: '+27821234567'
+        m_payment_id:
+          type: string
+          description: Merchant payment reference ID
+          example: 'order-1234'
+        amount:
+          type: string
+          description: Payment amount (ZAR, 2 decimal places)
+          example: '99.00'
+        item_name:
+          type: string
+          description: Item name
+          maxLength: 100
+          example: 'Premium subscription'
+        item_description:
+          type: string
+          description: Item description
+          maxLength: 255
+          example: 'Monthly premium plan'
+        currency:
+          type: string
+          description: Currency (default ZAR)
+          default: 'ZAR'
+          example: 'ZAR'
+        payment_method:
+          type: string
+          description: Restrict payment to a specific method
+          example: 'cc'
+        signature:
+          type: string
+          description: MD5 signature of sorted payment parameters
+          example: 'ad3e6c84d5e5f374a3a0431bc5acbc90'
+
+    PaymentFormRequest:
+      type: object
+      required:
+        - merchant_id
+        - merchant_key
+        - amount
+        - item_name
+        - signature
+      properties:
+        merchant_id:
+          type: string
+          description: PayFast merchant ID
+          example: '10000100'
+        merchant_key:
+          type: string
+          description: PayFast merchant key
+          example: '46f0cd694581a'
+        return_url:
+          type: string
+          format: uri
+          description: URL to redirect to after successful payment
+          example: 'https://www.example.com/return'
+        cancel_url:
+          type: string
+          format: uri
+          description: URL to redirect to if customer cancels
+          example: 'https://www.example.com/cancel'
+        notify_url:
+          type: string
+          format: uri
+          description: ITN notification URL
+          example: 'https://www.example.com/notify'
+        name_first:
+          type: string
+          description: Customer first name
+          example: 'Jane'
+        name_last:
+          type: string
+          description: Customer last name
+          example: 'Smith'
+        email_address:
+          type: string
+          format: email
+          description: Customer email address
+          example: 'jane@example.com'
+        cell_number:
+          type: string
+          description: Customer cell number
+          example: '+27821234567'
+        m_payment_id:
+          type: string
+          description: Merchant payment reference ID (up to 100 chars)
+          maxLength: 100
+          example: 'order-1234'
+        amount:
+          type: string
+          description: Payment amount formatted to 2 decimal places (ZAR)
+          example: '99.00'
+        item_name:
+          type: string
+          description: Name of item being purchased
+          maxLength: 100
+          example: 'Premium subscription'
+        item_description:
+          type: string
+          description: Description of item
+          maxLength: 255
+          example: 'Monthly premium plan'
+        custom_int1:
+          type: integer
+          description: Custom integer field 1
+        custom_int2:
+          type: integer
+          description: Custom integer field 2
+        custom_int3:
+          type: integer
+          description: Custom integer field 3
+        custom_int4:
+          type: integer
+          description: Custom integer field 4
+        custom_int5:
+          type: integer
+          description: Custom integer field 5
+        custom_str1:
+          type: string
+          description: Custom string field 1
+          maxLength: 255
+        custom_str2:
+          type: string
+          description: Custom string field 2
+          maxLength: 255
+        custom_str3:
+          type: string
+          description: Custom string field 3
+          maxLength: 255
+        custom_str4:
+          type: string
+          description: Custom string field 4
+          maxLength: 255
+        custom_str5:
+          type: string
+          description: Custom string field 5
+          maxLength: 255
+        email_confirmation:
+          type: integer
+          description: Send confirmation email (1=yes)
+          enum: [0, 1]
+          example: 1
+        confirmation_address:
+          type: string
+          format: email
+          description: Email address for confirmation
+          example: 'merchant@example.com'
+        currency:
+          type: string
+          description: Transaction currency (default ZAR)
+          default: 'ZAR'
+          example: 'ZAR'
+        payment_method:
+          type: string
+          description: Restrict payment to a specific method (cc, dc, ef, etc.)
+          example: 'cc'
+        subscription_type:
+          type: integer
+          description: Subscription type (1=recurring billing, 2=tokenization)
+          enum: [1, 2]
+          example: 1
+        billing_date:
+          type: string
+          format: date
+          description: First billing date for subscriptions (YYYY-MM-DD)
+          example: '2026-07-01'
+        recurring_amount:
+          type: string
+          description: Recurring billing amount (ZAR, 2 decimal places)
+          example: '99.00'
+        frequency:
+          type: integer
+          description: >
+            Billing frequency (3=monthly, 4=quarterly, 5=biannually, 6=annually)
+          enum: [3, 4, 5, 6]
+          example: 3
+        cycles:
+          type: integer
+          description: Number of billing cycles (0=indefinite)
+          example: 12
+        subscription_notify_email:
+          type: integer
+          description: Notify merchant of subscription updates via email (1=yes)
+          enum: [0, 1]
+          example: 1
+        subscription_notify_webhook:
+          type: integer
+          description: Notify merchant of subscription updates via webhook (1=yes)
+          enum: [0, 1]
+          example: 1
+        subscription_notify_buyer:
+          type: integer
+          description: Notify buyer of subscription updates (1=yes)
+          enum: [0, 1]
+          example: 1
+        signature:
+          type: string
+          description: MD5 signature of the payment parameters
+          example: 'ad3e6c84d5e5f374a3a0431bc5acbc90'
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: 'failed'
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: 'Required "token" parameter missing'
+
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
