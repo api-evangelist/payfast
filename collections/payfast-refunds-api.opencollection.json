@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Refunds API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Refunds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch refund details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/refunds/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique identifier of the transaction to refund"
+              }
+            ]
+          },
+          "docs": "Retrieve the details of a specific refund by its ID."
+        },
+        {
+          "info": {
+            "name": "Create a refund",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/refunds/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique identifier of the transaction to refund"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate a refund for a completed transaction. Specify the refund amount, reason, and account type. Refunds are not available in sandbox mode.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

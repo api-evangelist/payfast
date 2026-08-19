@@ -1,0 +1,486 @@
+{
+  "item": [
+    {
+      "id": "c966b22d-1364-41f6-b137-2048efc80a68",
+      "name": "Refunds",
+      "description": {
+        "content": "Initiate and track refunds on completed transactions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4508ac7d-c281-40ef-93c4-da3d8caf1d10",
+          "name": "Fetch refund details",
+          "request": {
+            "name": "Fetch refund details",
+            "description": {
+              "content": "Retrieve the details of a specific refund by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "refunds",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the transaction to refund"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6c1a01d-d7c7-4060-a211-aebd86daa9a7",
+              "name": "Refund details returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": {\n      \"id\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n      \"payment_id\": \"1124148\",\n      \"merchant_id\": \"10000100\",\n      \"refund_amount\": 50,\n      \"status\": \"COMPLETE\",\n      \"created\": \"2026-06-13T10:00:00Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc44bcce-4ce3-4d0f-97c2-7b23f7f0fba2",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b33832ab-0c3e-4af5-ba7f-a424b4037ca4",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "97f3a63b-f50e-4fd6-8677-5cf4a7bb6834",
+          "name": "Create a refund",
+          "request": {
+            "name": "Create a refund",
+            "description": {
+              "content": "Initiate a refund for a completed transaction. Specify the refund amount, reason, and account type. Refunds are not available in sandbox mode.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "refunds",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the transaction to refund"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<integer>\",\n  \"reason\": \"<string>\",\n  \"acc_type\": \"<string>\",\n  \"notify_buyer\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "890e9cc1-4994-44ef-a57c-5577e799a28a",
+              "name": "Refund created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"reason\": \"Product returned by customer\",\n  \"acc_type\": \"savings\",\n  \"notify_buyer\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": {\n      \"id\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n      \"payment_id\": \"1124148\",\n      \"merchant_id\": \"10000100\",\n      \"refund_amount\": 50,\n      \"status\": \"COMPLETE\",\n      \"created\": \"2026-06-13T10:00:00Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c9766c9-557c-4418-b8bd-76e30a0cb5c1",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"reason\": \"Product returned by customer\",\n  \"acc_type\": \"savings\",\n  \"notify_buyer\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fbcd9cc-852e-4e18-825e-e94d21ac133d",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "refunds",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the transaction to refund"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"reason\": \"Product returned by customer\",\n  \"acc_type\": \"savings\",\n  \"notify_buyer\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.payfast.co.za/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "merchant-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b364d8e2-c06e-4379-aa86-bdad3c5145d0",
+    "name": "PayFast Credit Card Transactions Refunds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.\n\n\nContact Support:\n Name: PayFast Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

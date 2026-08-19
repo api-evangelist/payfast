@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Credit Card Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch credit card transaction details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/process/query/:token",
+            "params": [
+              {
+                "name": "token",
+                "value": "1124148",
+                "type": "path",
+                "description": "The credit card transaction token or ID"
+              }
+            ]
+          },
+          "docs": "Retrieve the details of a specific credit card transaction by its token/ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

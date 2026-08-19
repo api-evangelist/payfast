@@ -1,0 +1,156 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Transaction History API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transaction History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get transaction history for a date range",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/transactions/history",
+            "params": [
+              {
+                "name": "from",
+                "value": "2026-06-01",
+                "type": "query",
+                "description": "Start date of the range (YYYY-MM-DD). Defaults to today."
+              },
+              {
+                "name": "to",
+                "value": "2026-06-30",
+                "type": "query",
+                "description": "End date of the range (YYYY-MM-DD)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Pagination offset (number of records to skip)"
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of records to return"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of transactions for the authenticated merchant within a specified date range. Results are paginated via offset and limit.\n"
+        },
+        {
+          "info": {
+            "name": "Get daily transaction summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/transactions/history/daily",
+            "params": [
+              {
+                "name": "date",
+                "value": "2026-06-12",
+                "type": "query",
+                "description": "The date to retrieve the daily summary for (YYYY-MM-DD)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Pagination offset (number of records to skip)"
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of records to return"
+              }
+            ]
+          },
+          "docs": "Retrieve a daily aggregated summary of transactions for a given date."
+        },
+        {
+          "info": {
+            "name": "Get weekly transaction summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/transactions/history/weekly",
+            "params": [
+              {
+                "name": "date",
+                "value": "2026-06-09",
+                "type": "query",
+                "description": "A date within the desired week (YYYY-MM-DD)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Pagination offset (number of records to skip)"
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of records to return"
+              }
+            ]
+          },
+          "docs": "Retrieve a weekly aggregated summary of transactions for the week containing the specified date."
+        },
+        {
+          "info": {
+            "name": "Get monthly transaction summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/transactions/history/monthly",
+            "params": [
+              {
+                "name": "date",
+                "value": "2026-06",
+                "type": "query",
+                "description": "Year and month (YYYY-MM)"
+              },
+              {
+                "name": "offset",
+                "value": "0",
+                "type": "query",
+                "description": "Pagination offset (number of records to skip)"
+              },
+              {
+                "name": "limit",
+                "value": "100",
+                "type": "query",
+                "description": "Maximum number of records to return"
+              }
+            ]
+          },
+          "docs": "Retrieve a monthly aggregated summary of transactions for the specified month."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

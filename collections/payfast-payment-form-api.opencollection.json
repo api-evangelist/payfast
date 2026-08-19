@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Payment Form API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Payment Form",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Initiate a standard payment (form redirect)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/eng/process",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Standard payment form POST to initiate a PayFast redirect checkout. The customer is redirected to PayFast to complete payment. This endpoint is on the www.payfast.co.za (or sandbox.payfast.co.za) domain.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

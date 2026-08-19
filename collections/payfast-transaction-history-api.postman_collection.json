@@ -1,0 +1,983 @@
+{
+  "item": [
+    {
+      "id": "9d2cb535-b863-44b8-af90-814af130fbb8",
+      "name": "Transaction History",
+      "description": {
+        "content": "Query merchant transaction history with date range and aggregations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e6fe7f82-385e-4a9f-b66a-2a88807bb9b4",
+          "name": "Get transaction history for a date range",
+          "request": {
+            "name": "Get transaction history for a date range",
+            "description": {
+              "content": "Retrieve a list of transactions for the authenticated merchant within a specified date range. Results are paginated via offset and limit.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<date>",
+                  "description": "Start date of the range (YYYY-MM-DD). Defaults to today."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<date>",
+                  "description": "End date of the range (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset (number of records to skip)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Maximum number of records to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "22b7d403-a8a8-440d-b4d7-3528e42837b1",
+              "name": "Transaction list returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-06-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-06-30"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": [\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      },\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21df9ee1-8ca0-44fe-8c1e-4e39a059431f",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-06-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-06-30"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7c0829b9-0f98-441d-b0e5-95686229b40e",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "2026-06-01"
+                    },
+                    {
+                      "key": "to",
+                      "value": "2026-06-30"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82e4578d-9574-4e7b-983b-3fbaec56e49f",
+          "name": "Get daily transaction summary",
+          "request": {
+            "name": "Get daily transaction summary",
+            "description": {
+              "content": "Retrieve a daily aggregated summary of transactions for a given date.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                "history",
+                "daily"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) The date to retrieve the daily summary for (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset (number of records to skip)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Maximum number of records to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a3f740bd-17f5-4439-80e3-709d22c9a512",
+              "name": "Daily summary returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-12"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": [\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      },\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21c62307-acdf-4d24-a6de-7faaa9edd7ba",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-12"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23158f7c-23ff-46f5-a09c-8f98fa23295a",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-12"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b75b4ecb-9a91-4746-ac28-ac437dd4166e",
+          "name": "Get weekly transaction summary",
+          "request": {
+            "name": "Get weekly transaction summary",
+            "description": {
+              "content": "Retrieve a weekly aggregated summary of transactions for the week containing the specified date.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                "history",
+                "weekly"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<date>",
+                  "description": "(Required) A date within the desired week (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset (number of records to skip)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Maximum number of records to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "68b6cedd-014b-473d-b7cb-875ffd099fc7",
+              "name": "Weekly summary returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "weekly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-09"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": [\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      },\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbd33d7f-4675-473f-a246-5406045f1d1a",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "weekly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-09"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "416d9801-13fb-4c65-86b8-8dd889a4c616",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "weekly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06-09"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e6bedeea-b07b-4010-905a-c484a4a74b7c",
+          "name": "Get monthly transaction summary",
+          "request": {
+            "name": "Get monthly transaction summary",
+            "description": {
+              "content": "Retrieve a monthly aggregated summary of transactions for the specified month.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "transactions",
+                "history",
+                "monthly"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "date",
+                  "value": "<string>",
+                  "description": "(Required) Year and month (YYYY-MM)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset (number of records to skip)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "1000",
+                  "description": "Maximum number of records to return"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f3600aa7-5df8-4427-96db-988215cddc59",
+              "name": "Monthly summary returned successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "monthly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": [\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      },\n      {\n        \"m_payment_id\": \"order-1234\",\n        \"pf_payment_id\": \"1124148\",\n        \"payment_status\": \"COMPLETE\",\n        \"item_name\": \"Premium subscription\",\n        \"item_description\": \"Monthly premium plan\",\n        \"amount_gross\": 99,\n        \"amount_fee\": 2.97,\n        \"amount_net\": 96.03,\n        \"buyer_first_name\": \"Jane\",\n        \"buyer_last_name\": \"Smith\",\n        \"buyer_email_address\": \"jane.smith@example.com\",\n        \"token\": \"dc0521d3-55fe-269b-fa00-b647310d760f\",\n        \"billing_date\": \"2026-06-01\",\n        \"payment_method\": \"cc\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc2b717e-efd2-4904-9e18-153e5229bd69",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "monthly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "471f6dfb-6c37-443c-87be-167772501cac",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "transactions",
+                    "history",
+                    "monthly"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "date",
+                      "value": "2026-06"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.payfast.co.za/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "merchant-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bab8e677-40a1-4e3d-8ed6-8df5a1c045ed",
+    "name": "PayFast Credit Card Transactions Transaction History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.\n\n\nContact Support:\n Name: PayFast Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

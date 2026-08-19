@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Onsite Checkout API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Onsite Checkout",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate onsite payment identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/onsite/process",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Generate a UUID payment identifier for the PayFast onsite (embedded) checkout integration. The UUID is then used client-side with the PayFast JS library to render the embedded payment form. Not available in sandbox mode.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

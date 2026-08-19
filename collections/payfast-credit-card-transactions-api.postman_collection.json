@@ -1,0 +1,253 @@
+{
+  "item": [
+    {
+      "id": "470c601e-f761-4a9a-816d-c70f4cf2649e",
+      "name": "Credit Card Transactions",
+      "description": {
+        "content": "Query individual credit card transaction details",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7a64974b-69ac-4e1d-9489-62054971c591",
+          "name": "Fetch credit card transaction details",
+          "request": {
+            "name": "Fetch credit card transaction details",
+            "description": {
+              "content": "Retrieve the details of a specific credit card transaction by its token/ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "process",
+                "query",
+                ":token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "token",
+                  "description": "(Required) The credit card transaction token or ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0ade11bb-807a-4359-be26-11a3e228d377",
+              "name": "Credit card transaction details returned",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "process",
+                    "query",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) The credit card transaction token or ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": {\n      \"pf_payment_id\": \"1124148\",\n      \"payment_status\": \"COMPLETE\",\n      \"amount_gross\": 150,\n      \"amount_fee\": 4.5,\n      \"amount_net\": 145.5,\n      \"card_number\": \"4***********1234\",\n      \"card_expiry\": \"12/28\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba7b6b72-405a-4718-adca-e5f34395bd93",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "process",
+                    "query",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) The credit card transaction token or ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfade220-8a45-43cb-9403-afe2eedf29da",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "process",
+                    "query",
+                    ":token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "token",
+                      "description": "(Required) The credit card transaction token or ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.payfast.co.za/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "merchant-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fa365a3e-75d8-4281-a690-c79e18867035",
+    "name": "PayFast Credit Card Transactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.\n\n\nContact Support:\n Name: PayFast Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

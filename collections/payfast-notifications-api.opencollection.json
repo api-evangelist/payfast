@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Notifications API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validate Instant Transaction Notification (ITN)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/eng/query/validate",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Server-to-server validation call to confirm that an Instant Transaction Notification (webhook) from PayFast is genuine. Returns \"VALID\" or \"INVALID\".\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

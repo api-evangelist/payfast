@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Tokenization API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokenization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Adhoc charge on subscription token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/adhoc",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

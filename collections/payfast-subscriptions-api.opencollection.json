@@ -1,0 +1,152 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PayFast Credit Card Transactions Subscriptions API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "merchant-id",
+      "value": "{{merchant-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Fetch subscription details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/fetch",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ]
+          },
+          "docs": "Retrieve the current details of a recurring billing subscription by its token."
+        },
+        {
+          "info": {
+            "name": "Pause a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/pause",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pause a recurring billing subscription for a specified number of billing cycles."
+        },
+        {
+          "info": {
+            "name": "Unpause a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/unpause",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ]
+          },
+          "docs": "Resume a paused recurring billing subscription."
+        },
+        {
+          "info": {
+            "name": "Cancel a subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/cancel",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ]
+          },
+          "docs": "Permanently cancel a recurring billing subscription agreement."
+        },
+        {
+          "info": {
+            "name": "Update subscription parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/update",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update one or more parameters of an existing recurring billing subscription such as billing cycles, frequency, run date, or amount.\n"
+        },
+        {
+          "info": {
+            "name": "Adhoc charge on subscription token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.payfast.co.za/v1/subscriptions/:token/adhoc",
+            "params": [
+              {
+                "name": "token",
+                "value": "dc0521d3-55fe-269b-fa00-b647310d760f",
+                "type": "path",
+                "description": "Unique token identifying the subscription or tokenization agreement"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

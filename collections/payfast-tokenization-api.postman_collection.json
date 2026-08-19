@@ -1,0 +1,290 @@
+{
+  "item": [
+    {
+      "id": "caaae392-7359-4b79-8ee5-6f52bb9c1bbd",
+      "name": "Tokenization",
+      "description": {
+        "content": "Manage tokenized card payment agreements (adhoc charges)",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "35c0f3ba-e753-4e6a-9ea1-ae480cd9a95a",
+          "name": "Adhoc charge on subscription token",
+          "request": {
+            "name": "Adhoc charge on subscription token",
+            "description": {
+              "content": "Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "subscriptions",
+                ":token",
+                "adhoc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "token",
+                  "description": "(Required) Unique token identifying the subscription or tokenization agreement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": \"<integer>\",\n  \"item_name\": \"<string>\",\n  \"item_description\": \"<string>\",\n  \"cc_cvv\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c53fdc00-38ed-463a-a545-45408650a0f8",
+              "name": "Adhoc charge processed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscriptions",
+                    ":token",
+                    "adhoc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "token",
+                      "description": "(Required) Unique token identifying the subscription or tokenization agreement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"item_name\": \"Premium plan upgrade\",\n  \"item_description\": \"One-time upgrade charge\",\n  \"cc_cvv\": 123\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"data\": {\n    \"response\": true,\n    \"message\": \"Adhoc charge processed\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d76f68cc-58fe-4377-995c-0d85873f5284",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscriptions",
+                    ":token",
+                    "adhoc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "token",
+                      "description": "(Required) Unique token identifying the subscription or tokenization agreement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"item_name\": \"Premium plan upgrade\",\n  \"item_description\": \"One-time upgrade charge\",\n  \"cc_cvv\": 123\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84361728-3738-4fcc-91fb-e4bcfc774361",
+              "name": "Unauthorized — invalid or missing merchant authentication signature",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscriptions",
+                    ":token",
+                    "adhoc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "token",
+                      "description": "(Required) Unique token identifying the subscription or tokenization agreement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 5000,\n  \"item_name\": \"Premium plan upgrade\",\n  \"item_description\": \"One-time upgrade charge\",\n  \"cc_cvv\": 123\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.payfast.co.za/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "merchant-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "25194c8e-f9e6-424d-8416-2729772edc7f",
+    "name": "PayFast Credit Card Transactions Tokenization API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.\n\n\nContact Support:\n Name: PayFast Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "item": [
+    {
+      "id": "288622ba-ff6a-4ff0-9430-fd676ea7fb32",
+      "name": "Onsite Checkout",
+      "description": {
+        "content": "Generate payment identifiers for embedded (onsite) checkout flows",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a1506589-d8b0-4ff2-b57a-a2923038d346",
+          "name": "Generate onsite payment identifier",
+          "request": {
+            "name": "Generate onsite payment identifier",
+            "description": {
+              "content": "Generate a UUID payment identifier for the PayFast onsite (embedded) checkout integration. The UUID is then used client-side with the PayFast JS library to render the embedded payment form. Not available in sandbox mode.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "onsite",
+                "process"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "merchant_id",
+                  "value": "<string>",
+                  "description": "(Required) PayFast merchant ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "merchant_key",
+                  "value": "<string>",
+                  "description": "(Required) PayFast merchant key"
+                },
+                {
+                  "disabled": false,
+                  "key": "amount",
+                  "value": "<string>",
+                  "description": "(Required) Payment amount (ZAR, 2 decimal places)"
+                },
+                {
+                  "disabled": false,
+                  "key": "item_name",
+                  "value": "<string>",
+                  "description": "(Required) Item name"
+                },
+                {
+                  "disabled": false,
+                  "key": "signature",
+                  "value": "<string>",
+                  "description": "(Required) MD5 signature of sorted payment parameters"
+                },
+                {
+                  "disabled": false,
+                  "key": "return_url",
+                  "value": "<uri>",
+                  "description": "URL to redirect to after successful payment"
+                },
+                {
+                  "disabled": false,
+                  "key": "cancel_url",
+                  "value": "<uri>",
+                  "description": "URL to redirect to if customer cancels"
+                },
+                {
+                  "disabled": false,
+                  "key": "notify_url",
+                  "value": "<uri>",
+                  "description": "ITN notification URL (server-to-server webhook)"
+                },
+                {
+                  "disabled": false,
+                  "key": "name_first",
+                  "value": "<string>",
+                  "description": "Customer first name"
+                },
+                {
+                  "disabled": false,
+                  "key": "name_last",
+                  "value": "<string>",
+                  "description": "Customer last name"
+                },
+                {
+                  "disabled": false,
+                  "key": "email_address",
+                  "value": "<email>",
+                  "description": "Customer email address"
+                },
+                {
+                  "disabled": false,
+                  "key": "cell_number",
+                  "value": "<string>",
+                  "description": "Customer cell number"
+                },
+                {
+                  "disabled": false,
+                  "key": "m_payment_id",
+                  "value": "<string>",
+                  "description": "Merchant payment reference ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "item_description",
+                  "value": "<string>",
+                  "description": "Item description"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "ZAR",
+                  "description": "Currency (default ZAR)"
+                },
+                {
+                  "disabled": false,
+                  "key": "payment_method",
+                  "value": "<string>",
+                  "description": "Restrict payment to a specific method"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f0ebcbb9-a4b8-4a37-973e-ad7a3ffd5432",
+              "name": "Payment identifier generated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "onsite",
+                    "process"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) PayFast merchant ID",
+                        "type": "text/plain"
+                      },
+                      "key": "merchant_id",
+                      "value": "10000100"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) PayFast merchant key",
+                        "type": "text/plain"
+                      },
+                      "key": "merchant_key",
+                      "value": "46f0cd694581a"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Payment amount (ZAR, 2 decimal places)",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "99.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Item name",
+                        "type": "text/plain"
+                      },
+                      "key": "item_name",
+                      "value": "Premium subscription"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) MD5 signature of sorted payment parameters",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "URL to redirect to after successful payment",
+                        "type": "text/plain"
+                      },
+                      "key": "return_url",
+                      "value": "https://www.example.com/return"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "URL to redirect to if customer cancels",
+                        "type": "text/plain"
+                      },
+                      "key": "cancel_url",
+                      "value": "https://www.example.com/cancel"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "ITN notification URL (server-to-server webhook)",
+                        "type": "text/plain"
+                      },
+                      "key": "notify_url",
+                      "value": "https://www.example.com/notify"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer first name",
+                        "type": "text/plain"
+                      },
+                      "key": "name_first",
+                      "value": "Jane"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer last name",
+                        "type": "text/plain"
+                      },
+                      "key": "name_last",
+                      "value": "Smith"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer email address",
+                        "type": "text/plain"
+                      },
+                      "key": "email_address",
+                      "value": "jane@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer cell number",
+                        "type": "text/plain"
+                      },
+                      "key": "cell_number",
+                      "value": "+27821234567"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Merchant payment reference ID",
+                        "type": "text/plain"
+                      },
+                      "key": "m_payment_id",
+                      "value": "order-1234"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Item description",
+                        "type": "text/plain"
+                      },
+                      "key": "item_description",
+                      "value": "Monthly premium plan"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Currency (default ZAR)",
+                        "type": "text/plain"
+                      },
+                      "key": "currency",
+                      "value": "ZAR"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Restrict payment to a specific method",
+                        "type": "text/plain"
+                      },
+                      "key": "payment_method",
+                      "value": "cc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"uuid\": \"550e8400-e29b-41d4-a716-446655440000\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "687b3f0f-4d61-40cb-8aab-2136a837cec6",
+              "name": "Bad request — missing or invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "onsite",
+                    "process"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "merchant-id",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) PayFast merchant ID",
+                        "type": "text/plain"
+                      },
+                      "key": "merchant_id",
+                      "value": "10000100"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) PayFast merchant key",
+                        "type": "text/plain"
+                      },
+                      "key": "merchant_key",
+                      "value": "46f0cd694581a"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Payment amount (ZAR, 2 decimal places)",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "99.00"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Item name",
+                        "type": "text/plain"
+                      },
+                      "key": "item_name",
+                      "value": "Premium subscription"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) MD5 signature of sorted payment parameters",
+                        "type": "text/plain"
+                      },
+                      "key": "signature",
+                      "value": "ad3e6c84d5e5f374a3a0431bc5acbc90"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "URL to redirect to after successful payment",
+                        "type": "text/plain"
+                      },
+                      "key": "return_url",
+                      "value": "https://www.example.com/return"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "URL to redirect to if customer cancels",
+                        "type": "text/plain"
+                      },
+                      "key": "cancel_url",
+                      "value": "https://www.example.com/cancel"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "ITN notification URL (server-to-server webhook)",
+                        "type": "text/plain"
+                      },
+                      "key": "notify_url",
+                      "value": "https://www.example.com/notify"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer first name",
+                        "type": "text/plain"
+                      },
+                      "key": "name_first",
+                      "value": "Jane"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer last name",
+                        "type": "text/plain"
+                      },
+                      "key": "name_last",
+                      "value": "Smith"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer email address",
+                        "type": "text/plain"
+                      },
+                      "key": "email_address",
+                      "value": "jane@example.com"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Customer cell number",
+                        "type": "text/plain"
+                      },
+                      "key": "cell_number",
+                      "value": "+27821234567"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Merchant payment reference ID",
+                        "type": "text/plain"
+                      },
+                      "key": "m_payment_id",
+                      "value": "order-1234"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Item description",
+                        "type": "text/plain"
+                      },
+                      "key": "item_description",
+                      "value": "Monthly premium plan"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Currency (default ZAR)",
+                        "type": "text/plain"
+                      },
+                      "key": "currency",
+                      "value": "ZAR"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Restrict payment to a specific method",
+                        "type": "text/plain"
+                      },
+                      "key": "payment_method",
+                      "value": "cc"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"status\": \"failed\",\n  \"data\": {\n    \"response\": \"Required \\\"token\\\" parameter missing\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.payfast.co.za/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "merchant-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0acfb82f-7c14-49d6-bea8-46a494454088",
+    "name": "PayFast Credit Card Transactions Onsite Checkout API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.\n\n\nContact Support:\n Name: PayFast Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
