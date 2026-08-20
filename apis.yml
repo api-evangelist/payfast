@@ -24,6 +24,17 @@ tags:
   - Payments
   - Payment Gateway
   - South Africa
+  - Subscription
+  - Recurring Billing
+  - Tokenization
+  - Instant EFT
+  - QR Code Payments
+  - Refunds
+  - Fintech
+tags_raw:
+  - Payments
+  - Payment Gateway
+  - South Africa
   - Subscriptions
   - Recurring Billing
   - Tokenization
@@ -41,6 +52,11 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
+  - Subscription
+  - Recurring Billing
+  - Membership
+  - Billing
+  tags_raw:
   - Subscriptions
   - Recurring Billing
   - Membership
@@ -72,6 +88,11 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
+  - Transaction
+  - History
+  - Reporting
+  - Reconciliation
+  tags_raw:
   - Transactions
   - History
   - Reporting
@@ -87,6 +108,10 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
+  - Credit Card
+  - Transaction
+  - Lookup
+  tags_raw:
   - Credit Card
   - Transactions
   - Lookup
@@ -127,6 +152,8 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -183,6 +210,8 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
