@@ -1,5 +1,17 @@
 name: PayFast
 description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, QR code payments, instant EFT bank transfers, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
