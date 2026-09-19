@@ -88,6 +88,11 @@ apis:
   tags:
   - Tokenization
   - Recurring Payments
+  - Credit Cards
+  - Card Storage
+  tags_raw:
+  - Tokenization
+  - Recurring Payments
   - Credit Card
   - Card Storage
   properties:
@@ -121,7 +126,7 @@ apis:
   humanURL: https://developers.payfast.co.za/documentation
   baseURL: https://api.payfast.co.za
   tags:
-  - Credit Card
+  - Credit Cards
   - Transaction
   - Lookup
   tags_raw:
