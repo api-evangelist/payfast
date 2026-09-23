@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: PayFast Credit Card Transactions Payment Form API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  title: PayFast Payment Form API
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -26,9 +24,7 @@ paths:
     post:
       operationId: initiatePayment
       summary: Initiate a standard payment (form redirect)
-      description: 'Standard payment form POST to initiate a PayFast redirect checkout. The customer is redirected to PayFast to complete payment. This endpoint is on the www.payfast.co.za (or sandbox.payfast.co.za) domain.
-
-        '
+      description: Standard payment form POST to initiate a PayFast redirect checkout. The customer is redirected to PayFast to complete payment. This endpoint is on the www.payfast.co.za (or sandbox.payfast.co.za) domain.
       tags:
       - Payment Form
       servers:

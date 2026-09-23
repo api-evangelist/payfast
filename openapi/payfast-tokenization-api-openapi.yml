@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: PayFast Credit Card Transactions Tokenization API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  title: PayFast Tokenization API
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -26,9 +24,7 @@ paths:
     post:
       operationId: adhocSubscriptionCharge
       summary: Adhoc charge on subscription token
-      description: 'Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
-
-        '
+      description: Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
       tags:
       - Tokenization
       parameters:
@@ -70,6 +66,24 @@ components:
               type: string
               description: Error message
               example: Required "token" parameter missing
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
     AdhocChargeRequest:
       type: object
       required:
@@ -94,34 +108,6 @@ components:
           type: integer
           description: Card CVV (when required for adhoc charge)
           example: 123
-    AdhocChargeResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 200
-        status:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            response:
-              type: boolean
-              example: true
-            message:
-              type: string
-              example: Adhoc charge processed
-  parameters:
-    subscriptionToken:
-      name: token
-      in: path
-      required: true
-      description: Unique token identifying the subscription or tokenization agreement
-      schema:
-        type: string
-        format: uuid
-      example: dc0521d3-55fe-269b-fa00-b647310d760f
   responses:
     BadRequest:
       description: Bad request — missing or invalid parameters
@@ -135,6 +121,16 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
   securitySchemes:
     merchantAuth:
       type: apiKey

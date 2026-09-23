@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: PayFast Credit Card Transactions Onsite Checkout API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  title: PayFast Onsite Checkout API
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -26,9 +24,7 @@ paths:
     post:
       operationId: generatePaymentIdentifier
       summary: Generate onsite payment identifier
-      description: 'Generate a UUID payment identifier for the PayFast onsite (embedded) checkout integration. The UUID is then used client-side with the PayFast JS library to render the embedded payment form. Not available in sandbox mode.
-
-        '
+      description: Generate a UUID payment identifier for the PayFast onsite (embedded) checkout integration. The UUID is then used client-side with the PayFast JS library to render the embedded payment form. Not available in sandbox mode.
       tags:
       - Onsite Checkout
       requestBody:
@@ -60,24 +56,6 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
     OnsitePaymentRequest:
       type: object
       required:
@@ -158,6 +136,24 @@ components:
           type: string
           description: MD5 signature of sorted payment parameters
           example: ad3e6c84d5e5f374a3a0431bc5acbc90
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
   securitySchemes:
     merchantAuth:
       type: apiKey

@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: PayFast Credit Card Transactions Notifications API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  title: PayFast Notifications API
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -26,9 +24,7 @@ paths:
     post:
       operationId: validateITN
       summary: Validate Instant Transaction Notification (ITN)
-      description: 'Server-to-server validation call to confirm that an Instant Transaction Notification (webhook) from PayFast is genuine. Returns "VALID" or "INVALID".
-
-        '
+      description: Server-to-server validation call to confirm that an Instant Transaction Notification (webhook) from PayFast is genuine. Returns "VALID" or "INVALID".
       tags:
       - Notifications
       servers:

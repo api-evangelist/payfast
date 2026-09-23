@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: PayFast Credit Card Transactions Subscriptions API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  title: PayFast Subscriptions API
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -116,9 +114,7 @@ paths:
     patch:
       operationId: updateSubscription
       summary: Update subscription parameters
-      description: 'Update one or more parameters of an existing recurring billing subscription such as billing cycles, frequency, run date, or amount.
-
-        '
+      description: Update one or more parameters of an existing recurring billing subscription such as billing cycles, frequency, run date, or amount.
       tags:
       - Subscriptions
       parameters:
@@ -168,9 +164,7 @@ paths:
     post:
       operationId: adhocSubscriptionCharge
       summary: Adhoc charge on subscription token
-      description: 'Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
-
-        '
+      description: Process an adhoc (one-off) charge against an existing recurring billing or tokenization token without requiring a new payment flow.
       tags:
       - Subscriptions
       parameters:
@@ -194,24 +188,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
     SubscriptionActionResponse:
       type: object
       description: Response from a subscription state-change action
@@ -233,48 +209,24 @@ components:
               type: string
               description: Human-readable result message
               example: Subscription paused
-    AdhocChargeRequest:
-      type: object
-      required:
-      - amount
-      - item_name
-      properties:
-        amount:
-          type: integer
-          description: Charge amount in cents (ZAR)
-          example: 5000
-        item_name:
-          type: string
-          description: Description of the item being charged
-          maxLength: 100
-          example: Premium plan upgrade
-        item_description:
-          type: string
-          description: Additional description
-          maxLength: 255
-          example: One-time upgrade charge
-        cc_cvv:
-          type: integer
-          description: Card CVV (when required for adhoc charge)
-          example: 123
-    AdhocChargeResponse:
+    ErrorResponse:
       type: object
       properties:
         code:
           type: integer
-          example: 200
+          description: HTTP error code
+          example: 400
         status:
           type: string
-          example: success
+          description: Error status
+          example: failed
         data:
           type: object
           properties:
             response:
-              type: boolean
-              example: true
-            message:
               type: string
-              example: Adhoc charge processed
+              description: Error message
+              example: Required "token" parameter missing
     SubscriptionResponse:
       type: object
       description: Details of a recurring billing subscription
@@ -332,6 +284,61 @@ components:
                   type: string
                   description: Human-readable status
                   example: Active
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
+    AdhocChargeRequest:
+      type: object
+      required:
+      - amount
+      - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: Premium plan upgrade
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: One-time upgrade charge
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     subscriptionToken:
       name: token
@@ -342,19 +349,6 @@ components:
         type: string
         format: uuid
       example: dc0521d3-55fe-269b-fa00-b647310d760f
-  responses:
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     merchantAuth:
       type: apiKey

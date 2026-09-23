@@ -1,14 +1,7 @@
 {
   "provider": "payfast",
   "sources": [
-    "payfast-credit-card-transactions-api-openapi.yml",
-    "payfast-notifications-api-openapi.yml",
-    "payfast-onsite-checkout-api-openapi.yml",
-    "payfast-payment-form-api-openapi.yml",
-    "payfast-refunds-api-openapi.yml",
-    "payfast-subscriptions-api-openapi.yml",
-    "payfast-tokenization-api-openapi.yml",
-    "payfast-transaction-history-api-openapi.yml"
+    "_original/openapi.yml"
   ],
   "outputs": [
     "payfast-credit-card-transactions-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "payfast-credit-card-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-onsite-checkout-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-payment-form-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-refunds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-tokenization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "payfast-transaction-history-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

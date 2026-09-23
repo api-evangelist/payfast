@@ -1,9 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: PayFast Credit Card Transactions API
-  description: 'South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
-
-    '
+  description: South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
   version: v1
   contact:
     name: PayFast Developer Support
@@ -112,14 +110,14 @@ components:
                   description: Card expiry (MM/YY)
                   example: 12/28
   responses:
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
       content:
         application/json:
           schema:
