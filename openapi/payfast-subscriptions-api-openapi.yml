@@ -187,6 +187,29 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
+  responses:
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     SubscriptionActionResponse:
       type: object
@@ -209,24 +232,48 @@ components:
               type: string
               description: Human-readable result message
               example: Subscription paused
-    ErrorResponse:
+    AdhocChargeRequest:
+      type: object
+      required:
+      - amount
+      - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: Premium plan upgrade
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: One-time upgrade charge
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+    AdhocChargeResponse:
       type: object
       properties:
         code:
           type: integer
-          description: HTTP error code
-          example: 400
+          example: 200
         status:
           type: string
-          description: Error status
-          example: failed
+          example: success
         data:
           type: object
           properties:
             response:
+              type: boolean
+              example: true
+            message:
               type: string
-              description: Error message
-              example: Required "token" parameter missing
+              example: Adhoc charge processed
     SubscriptionResponse:
       type: object
       description: Details of a recurring billing subscription
@@ -284,71 +331,24 @@ components:
                   type: string
                   description: Human-readable status
                   example: Active
-    AdhocChargeResponse:
+    ErrorResponse:
       type: object
       properties:
         code:
           type: integer
-          example: 200
+          description: HTTP error code
+          example: 400
         status:
           type: string
-          example: success
+          description: Error status
+          example: failed
         data:
           type: object
           properties:
             response:
-              type: boolean
-              example: true
-            message:
               type: string
-              example: Adhoc charge processed
-    AdhocChargeRequest:
-      type: object
-      required:
-      - amount
-      - item_name
-      properties:
-        amount:
-          type: integer
-          description: Charge amount in cents (ZAR)
-          example: 5000
-        item_name:
-          type: string
-          description: Description of the item being charged
-          maxLength: 100
-          example: Premium plan upgrade
-        item_description:
-          type: string
-          description: Additional description
-          maxLength: 255
-          example: One-time upgrade charge
-        cc_cvv:
-          type: integer
-          description: Card CVV (when required for adhoc charge)
-          example: 123
-  responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    subscriptionToken:
-      name: token
-      in: path
-      required: true
-      description: Unique token identifying the subscription or tokenization agreement
-      schema:
-        type: string
-        format: uuid
-      example: dc0521d3-55fe-269b-fa00-b647310d760f
+              description: Error message
+              example: Required "token" parameter missing
   securitySchemes:
     merchantAuth:
       type: apiKey

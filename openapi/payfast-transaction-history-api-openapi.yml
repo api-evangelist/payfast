@@ -143,25 +143,40 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of records to return
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 1000
+        default: 1000
+      example: 100
+    offset:
+      name: offset
+      in: query
+      description: Pagination offset (number of records to skip)
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      example: 0
+  responses:
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
     TransactionHistoryResponse:
       type: object
       description: Merchant transaction history results
@@ -249,39 +264,24 @@ components:
           type: string
           description: Payment method used
           example: cc
-  responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    offset:
-      name: offset
-      in: query
-      description: Pagination offset (number of records to skip)
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      example: 0
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of records to return
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 1000
-        default: 1000
-      example: 100
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
   securitySchemes:
     merchantAuth:
       type: apiKey
