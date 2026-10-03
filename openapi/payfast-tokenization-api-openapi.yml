@@ -79,6 +79,24 @@ components:
             message:
               type: string
               example: Adhoc charge processed
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
     AdhocChargeRequest:
       type: object
       required:
@@ -103,24 +121,6 @@ components:
           type: integer
           description: Card CVV (when required for adhoc charge)
           example: 123
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
   parameters:
     subscriptionToken:
       name: token
