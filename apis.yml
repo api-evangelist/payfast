@@ -267,6 +267,9 @@ apis:
   - type: Sandbox
     url: https://sandbox.payfast.co.za
 common:
+  - type: CapabilityMap
+    url: capabilities/payfast-capability-edges.yml
+    name: PayFast Business Capability Map
   - type: AgenticAccess
     url: agentic-access/payfast-agentic-access.yml
   - type: DomainSecurity

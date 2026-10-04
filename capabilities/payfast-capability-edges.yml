@@ -1,0 +1,26 @@
+slug: payfast
+provider: PayFast
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Subscriptions
+  spec_file: payfast-subscriptions-api-openapi.yml
+  capability_id: BC-4240
+  capability_id_l1: BC-4240
+  capability_name: Subscription Lifecycle Management
+  confidence: 0.8
+  evidence: PUT /subscriptions/{token}/cancel cancelSubscription; PATCH /subscriptions/{token}/update
+    updateSubscription Update subscription parameters
+  reason: Operations pause, unpause, update, cancel and charge subscriptions — plainly subscription lifecycle
+    management. Left at L1 because the surface spans modification (BC-4240.40) and cancellation (BC-4240.60)
+    rather than a single sub-capability.
