@@ -67,18 +67,28 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    refundId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the transaction to refund
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
   schemas:
     ErrorResponse:
       type: object
@@ -169,16 +179,6 @@ components:
           - 1
           default: 1
           example: 1
-  parameters:
-    refundId:
-      name: id
-      in: path
-      required: true
-      description: Unique identifier of the transaction to refund
-      schema:
-        type: string
-        format: uuid
-      example: dc0521d3-55fe-269b-fa00-b647310d760f
   securitySchemes:
     merchantAuth:
       type: apiKey
