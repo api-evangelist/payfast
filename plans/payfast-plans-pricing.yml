@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: PayFast Plans and Pricing
 description: PayFast operates on a transaction-fee-only model with no monthly subscription or setup fees. Merchants pay per-transaction fees that vary by payment method. Merchants processing over R50,000 per month averaged over three months qualify for customized volume pricing via direct sales consultation.
 specificationVersion: '0.1'
@@ -62,3 +66,23 @@ plans:
       - Negotiated transaction fee rates
       - Dedicated account management
       - Volume-based fee reductions
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units: []
+  plans:
+  - name: Standard (Pay-As-You-Go)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Volume Pricing (Enterprise)
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []

@@ -1,3 +1,7 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (undated — the file carries no date and git cannot supply one), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
 name: PayFast API Rate Limits
 description: PayFast REST API requests are authenticated using merchant-id, version, timestamp, and MD5 signature headers. Specific numeric rate limits are not publicly documented; however, API access is subject to fair-use policies and standard HTTP 429 responses when limits are exceeded. All API calls require valid merchant credentials and a properly computed signature.
 specificationVersion: '0.1'
