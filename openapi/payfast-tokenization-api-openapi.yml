@@ -47,6 +47,16 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    subscriptionToken:
+      name: token
+      in: path
+      required: true
+      description: Unique token identifying the subscription or tokenization agreement
+      schema:
+        type: string
+        format: uuid
+      example: dc0521d3-55fe-269b-fa00-b647310d760f
   schemas:
     AdhocChargeRequest:
       type: object
@@ -72,24 +82,6 @@ components:
           type: integer
           description: Card CVV (when required for adhoc charge)
           example: 123
-    AdhocChargeResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 200
-        status:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            response:
-              type: boolean
-              example: true
-            message:
-              type: string
-              example: Adhoc charge processed
     ErrorResponse:
       type: object
       properties:
@@ -108,16 +100,24 @@ components:
               type: string
               description: Error message
               example: Required "token" parameter missing
-  parameters:
-    subscriptionToken:
-      name: token
-      in: path
-      required: true
-      description: Unique token identifying the subscription or tokenization agreement
-      schema:
-        type: string
-        format: uuid
-      example: dc0521d3-55fe-269b-fa00-b647310d760f
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
   responses:
     Unauthorized:
       description: Unauthorized — invalid or missing merchant authentication signature

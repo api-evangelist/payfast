@@ -143,55 +143,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — missing or invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
-    TransactionHistoryResponse:
-      type: object
-      description: Merchant transaction history results
-      properties:
-        code:
-          type: integer
-          example: 200
-        status:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            response:
-              type: array
-              items:
-                $ref: '#/components/schemas/Transaction'
     Transaction:
       type: object
       description: A single merchant transaction record
@@ -262,6 +214,54 @@ components:
           type: string
           description: Payment method used
           example: cc
+    TransactionHistoryResponse:
+      type: object
+      description: Merchant transaction history results
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transaction'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+  responses:
+    BadRequest:
+      description: Bad request — missing or invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     offset:
       name: offset

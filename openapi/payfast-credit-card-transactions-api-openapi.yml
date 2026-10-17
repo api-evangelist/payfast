@@ -48,14 +48,14 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    BadRequest:
-      description: Bad request — missing or invalid parameters
+    Unauthorized:
+      description: Unauthorized — invalid or missing merchant authentication signature
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Unauthorized — invalid or missing merchant authentication signature
+    BadRequest:
+      description: Bad request — missing or invalid parameters
       content:
         application/json:
           schema:

@@ -188,66 +188,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    AdhocChargeRequest:
-      type: object
-      required:
-      - amount
-      - item_name
-      properties:
-        amount:
-          type: integer
-          description: Charge amount in cents (ZAR)
-          example: 5000
-        item_name:
-          type: string
-          description: Description of the item being charged
-          maxLength: 100
-          example: Premium plan upgrade
-        item_description:
-          type: string
-          description: Additional description
-          maxLength: 255
-          example: One-time upgrade charge
-        cc_cvv:
-          type: integer
-          description: Card CVV (when required for adhoc charge)
-          example: 123
-    AdhocChargeResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          example: 200
-        status:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            response:
-              type: boolean
-              example: true
-            message:
-              type: string
-              example: Adhoc charge processed
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: HTTP error code
-          example: 400
-        status:
-          type: string
-          description: Error status
-          example: failed
-        data:
-          type: object
-          properties:
-            response:
-              type: string
-              description: Error message
-              example: Required "token" parameter missing
     SubscriptionResponse:
       type: object
       description: Details of a recurring billing subscription
@@ -326,6 +266,66 @@ components:
               type: string
               description: Human-readable result message
               example: Subscription paused
+    AdhocChargeRequest:
+      type: object
+      required:
+      - amount
+      - item_name
+      properties:
+        amount:
+          type: integer
+          description: Charge amount in cents (ZAR)
+          example: 5000
+        item_name:
+          type: string
+          description: Description of the item being charged
+          maxLength: 100
+          example: Premium plan upgrade
+        item_description:
+          type: string
+          description: Additional description
+          maxLength: 255
+          example: One-time upgrade charge
+        cc_cvv:
+          type: integer
+          description: Card CVV (when required for adhoc charge)
+          example: 123
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: HTTP error code
+          example: 400
+        status:
+          type: string
+          description: Error status
+          example: failed
+        data:
+          type: object
+          properties:
+            response:
+              type: string
+              description: Error message
+              example: Required "token" parameter missing
+    AdhocChargeResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            response:
+              type: boolean
+              example: true
+            message:
+              type: string
+              example: Adhoc charge processed
   parameters:
     subscriptionToken:
       name: token
