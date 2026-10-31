@@ -64,33 +64,169 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-South African payment gateway with REST APIs for online payment processing, subscription billing, QR code payments, and instant EFT bank transfer integration. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
+South African payment gateway providing REST APIs for online payment processing, subscription billing, tokenized recurring card payments, onsite checkout, QR code payments, instant EFT bank transfers, and merchant refunds. Trusted by 80,000+ South African businesses and certified PCI-DSS Level 1.
 
-**Developer Portal:** https://developers.payfast.co.za/documentation  
-**Website:** https://payfast.io  
-**Status:** https://status.payfast.io  
-**Pricing:** https://payfast.io/fees  
-**GitHub:** https://github.com/Payfast  
+**Areas:** Payments · Payment Gateway · South Africa · Subscription · Recurring Billing · Tokenization · Instant EFT · QR Code Payments · Refunds · Fintech
 
-## APIs
+## PayFast on APIs.io
 
-- **Payments API** — Initiate transactions via 18+ payment methods including credit card, Instant EFT, QR code, Apple Pay, Google Pay, and more.
-- **Subscriptions API** — Manage recurring billing subscriptions (fetch, pause, unpause, cancel, update, adhoc charges).
-- **Tokenization API** — Store and charge payment tokens for flexible recurring card payments.
-- **Transaction History API** — Query merchant transaction records by date range, daily, weekly, or monthly.
-- **Credit Card Transactions API** — Fetch individual credit card transaction details by ID.
-- **Refunds API** — Create and track customer refunds programmatically.
+Everything profiled for PayFast is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/payfast/](https://apis.io/providers/payfast/)** — or go straight to one of the APIs or properties below.
 
-## Authentication
+### APIs (13)
 
-All API requests require four HTTP headers: `merchant-id`, `version` (v1), `timestamp` (ISO 8601), and `signature` (MD5 hash of sorted parameters + passphrase). A sandbox environment is available at `sandbox.payfast.co.za` with test credentials.
+- [PayFast Subscriptions API](https://apis.io/apis/payfast/payfast-subscriptions-api/) — REST API for managing recurring billing subscriptions, including fetching subscription details, pausing, unpausing, cancelling, updating subscription…
+- [PayFast Tokenization API](https://apis.io/apis/payfast/payfast-tokenization-api/) — REST API for managing tokenized recurring card payment agreements, allowing merchants to charge customers at future dates and amounts without storing card…
+- [PayFast Transaction History API](https://apis.io/apis/payfast/payfast-transaction-history-api/) — REST API for querying merchant transaction history with support for date range queries, daily summaries, weekly aggregations, and monthly aggregations,…
+- [PayFast Credit Card Transactions API](https://apis.io/apis/payfast/payfast-credit-card-transactions-api/) — REST API for querying individual credit card transaction details by transaction ID, giving merchants programmatic access to card payment records.
+- [PayFast Refunds API](https://apis.io/apis/payfast/payfast-refunds-api/) — REST API for merchants to initiate and track refunds on completed transactions, specifying refund amount, reason, and account type for disbursement back to…
+- [PayFast Credit Card Transactions API](https://apis.io/apis/payfast/payfast-credit-card-transactions-api/) — Query individual credit card transaction details
+- [PayFast Notifications API](https://apis.io/apis/payfast/payfast-notifications-api/) — Validate ITN (Instant Transaction Notification) webhooks
+- [PayFast Onsite Checkout API](https://apis.io/apis/payfast/payfast-onsite-checkout-api/) — Generate payment identifiers for embedded (onsite) checkout flows
+- [PayFast Payment Form API](https://apis.io/apis/payfast/payfast-payment-form-api/) — Standard redirect-based payment form integration
+- [PayFast Refunds API](https://apis.io/apis/payfast/payfast-refunds-api/) — Initiate and track refunds on completed transactions
+- [PayFast Subscriptions API](https://apis.io/apis/payfast/payfast-subscriptions-api/) — Manage recurring billing subscription agreements
+- [PayFast Tokenization API](https://apis.io/apis/payfast/payfast-tokenization-api/) — Manage tokenized card payment agreements (adhoc charges)
+- [PayFast Transaction History API](https://apis.io/apis/payfast/payfast-transaction-history-api/) — Query merchant transaction history with date range and aggregations
 
-## Pricing
+### Published properties
 
-No monthly fees. Transaction fees only:
-- Credit/Cheque Card: 3.2% + R2.00
-- Instant EFT / Capitec Pay: 2.0% (min R2.00)
-- Refunds: R2.00 excl. VAT each
-- Payout: R8.70 excl. VAT per disbursement
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Volume pricing available for merchants averaging R50,000+/month.
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Payfast Agentic Access](https://apis.io/agentic-access/payfast/payfast-agentic-access/)
+
+#### JSON Schema (3)
+
+The data models the API reads and writes.
+
+- [PayFast Payment Form Request](https://apis.io/schemas/payfast/payfast-payment-form/)
+- [PayFast Refund Request](https://apis.io/schemas/payfast/payfast-refund-request/)
+- [PayFast Subscription Update Request](https://apis.io/schemas/payfast/payfast-subscription-update/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Payfast Context](https://apis.io/jsonld/payfast/payfast/)
+
+#### Examples (6)
+
+Example requests and responses.
+
+- [Adhoc Charge](https://apis.io/examples/payfast/adhoc-charge/)
+- [Create Refund](https://apis.io/examples/payfast/create-refund/)
+- [Fetch Subscription](https://apis.io/examples/payfast/fetch-subscription/)
+- [Initiate Payment](https://apis.io/examples/payfast/initiate-payment/)
+- [Subscription Recurring Billing](https://apis.io/examples/payfast/subscription-recurring-billing/)
+- [Transaction History Range](https://apis.io/examples/payfast/transaction-history-range/)
+
+#### Collections (8)
+
+Postman and Open Collection request collections.
+
+- [PayFast Credit Card Transactions API](https://apis.io/collections/payfast/open-payfast-credit-card-transactions-api/)
+- [PayFast Credit Card Transactions Notifications API](https://apis.io/collections/payfast/open-payfast-notifications-api/)
+- [PayFast Credit Card Transactions Onsite Checkout API](https://apis.io/collections/payfast/open-payfast-onsite-checkout-api/)
+- [PayFast Credit Card Transactions Payment Form API](https://apis.io/collections/payfast/open-payfast-payment-form-api/)
+- [PayFast Credit Card Transactions Refunds API](https://apis.io/collections/payfast/open-payfast-refunds-api/)
+- [PayFast Credit Card Transactions Subscriptions API](https://apis.io/collections/payfast/open-payfast-subscriptions-api/)
+- [PayFast Credit Card Transactions Tokenization API](https://apis.io/collections/payfast/open-payfast-tokenization-api/)
+- [PayFast Credit Card Transactions Transaction History API](https://apis.io/collections/payfast/open-payfast-transaction-history-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [PayFast — jsonschema rules](https://apis.io/rules/payfast/payfast-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Payfast Authentication](https://apis.io/security/payfast/payfast-authentication/)
+- [Payfast Domain Security](https://apis.io/security/payfast/payfast-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Payfast Plans Pricing](https://apis.io/plans/payfast/payfast-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Payfast Rate Limits](https://apis.io/rate-limits/payfast/payfast-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Payfast Finops](https://apis.io/finops/payfast/payfast-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://payfast.io)
+- [Documentation](https://developers.payfast.co.za/documentation)
+- [Pricing](https://payfast.io/fees)
+- [Support](https://support.payfast.help)
+- [Blog](https://payfast.io/resources)
+- [Status](https://status.payfast.io)
+
+## API Evangelist rating
+
+**Kin Score 27.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 55.1 |
+| Contract governance | 9.8 |
+| Operational transparency | 21.1 |
+| Developer ergonomics | 7.1 |
+| Access clarity | 15.8 |
+
+**Agent readiness 22.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.2** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/payfast/](https://apis.io/providers/payfast/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for PayFast: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/payfast/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
